@@ -1,0 +1,41 @@
+" Called with a command and a redirection target
+"   (see `:help redir` for info on redirection targets)
+" Note that since this is executed in function context,
+"   in order to target a global variable for redirection you must prefix it with `g:`.
+" EG call Redir('ls', '=>g:buffer_list')
+funct! Redir(command, pattern)
+"  exec 'redir @p'
+"  silent exec a:command
+"  redir END
+  redir => lines
+  silent execute a:command
+  redir END
+  new
+  setlocal buftype=nofile bufhidden=hide noswapfile
+  put =lines
+  g/^\s*$/d
+  %s/^\s*\d\+:\s*//e
+  if !empty(a:pattern)
+    execute 'v/' . a:pattern . '/d'
+  endif
+  0
+
+endfunct
+" The last non-space substring is passed as the redirection target.
+" EG
+"   :R ls @">
+"   " stores the buffer list in the 'unnamed buffer'
+" Redirections to variables or files will work,
+"   but there must not be a space between the redirection operator and the variable name.
+" Also note that in order to redirect to a global variable you have to preface it with `g:`.
+"   EG
+"     :R ls =>g:buffer_list
+"     :R ls >buffer_list.txt
+command! -nargs=? -complete=help R call call(function('Redir'), split(<q-args>, '\s\(\S\+\s*$\)\@='))
+
+function! Pluginmanager()
+    silent! :s/^/Plug '/
+    silent! :s/$/'/
+endfunction
+
+map ,p :call Pluginmanager()<CR>
