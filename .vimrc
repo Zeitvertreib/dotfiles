@@ -4,7 +4,7 @@ let &runtimepath = printf('%s/vimfiles,%s,%s/vimfiles/after', $VIM, $VIMRUNTIME,
 " what is the name of the directory containing this file?
 let s:portable = expand('<sfile>:p:h')
 " :execute '!touch' s:portable.'test.test'
-" silent execute '!ln -s ~/dotfiles/my_vimrc.vim ' s:portable.'/plugin/my_vimrc.vim'
+silent execute '!ln -s ~/dotfiles/my_vimrc.vim ' s:portable.'/plugin/my_vimrc.vim'
 
 " what is the name of the directory containing this file?
 " let s:portableVundle= s:portable . '/bundle/Vundle.vim'
@@ -86,6 +86,8 @@ Plug 'whatyouhide/vim-gotham'
 Plug 'atelierbram/vim-colors_duotones'
 Plug 'PotatoesMaster/vim-colors-harold'
 Plug 'vim-scripts/true-monochrome'
+Plug 'reedes/vim-colors-pencil'
+Plug 'flazz/vim-colorschemes'
 
 
 call plug#end()            " required

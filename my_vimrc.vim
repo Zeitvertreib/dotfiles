@@ -376,7 +376,6 @@ set timeout ttimeoutlen=50
 
 " ............. coloring
 colorscheme herald
-"colorscheme h80
 "colorscheme heliotrope
 "colorscheme hybrid
 "colorscheme torte
