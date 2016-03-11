@@ -40,6 +40,13 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/neocomplete.vim'
 Plug 'scrooloose/syntastic'
+" ======================================
+" Plug 'carlhuda/janus'
+" Plug 'xolox/vim-easytags'
+" Plug 'rkulla/pydiction'
+" Plug 'fboender/bexec'
+" ======================================
+
 Plug 'matze/vim-move'
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-fugitive'
@@ -230,3 +237,6 @@ if has("gui_running")
 " Maximize gvim window.
   set lines=55 columns=160
 endif
+
+
+" not vim related https://github.com/jaraco/irc
