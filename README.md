@@ -1,6 +1,6 @@
 # dotfiles
 
-put them in /anywhere/you/want/
+put them in /anywhere/you/want/ \n
 make a symlink from within your /path/to/portable/vim/ like so:
 /path/to/portable/vim/ $ ln -s /anywhere/you/want/.vimrc .vimrc
 
