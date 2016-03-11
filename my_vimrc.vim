@@ -1,6 +1,6 @@
 " ln -s ~/my_dotfiles/my_vimrc.vim ../plugin/my_vimrc.vim
 " Automatic reloading of .vimrc
-autocmd! bufwritepost my_vimrc.vim source %
+" autocmd! bufwritepost my_vimrc.vim source %
 
 set ttimeout
 set ttimeoutlen=100
@@ -65,7 +65,7 @@ set lazyredraw
 " -------------  plugins -------------
 let g:airline_right_sep=''
 let g:airline_left_sep=''
-let g:airline_theme='dark'
+let g:airline_theme='pencil'
 let g:airline_exclude_preview = 1
 
 let g:yankring_persist = 0
@@ -83,15 +83,78 @@ imap <expr><C-l>
 "let g:UltiSnipsJumpBackwardTrigger="<c-tab>"
 "let g:UltiSnipsJumpForwardTrigger=">"
 "let g:UltiSnipsListSnippets="<c-b>"
-" fuer neocompl
+"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
-let g:neocomplcache_enable_smart_case = 0
+let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 2
-"let g:acp_enableAtStartup = 0
-let g:neocomplcache_enable_auto_select = 1
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_underbar_completion = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+" AutoComplPop like behavior.
+"let g:neocomplete#enable_auto_select = 1
+
+" Shell like behavior(not recommended).
+"set completeopt+=longest
+"let g:neocomplete#enable_auto_select = 1
+"let g:neocomplete#disable_auto_complete = 1
+"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" For perlomni.vim setting.
+" https://github.com/c9s/perlomni.vim
+let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -186,17 +249,17 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
 \ }
 " full Python syntax highlighting
-let g:pymode_options = 0
-let g:pymode_syntax_print_as_function = 0
-let g:pymode_rope_lookup_project = 1
-let g:pymode_lint_ignore = "E128,W"
-let g:pymode_quickfix_minheight = 2
-let g:pymode_lint_signs = 0
-let g:pymode_python = 'python'
-let python_highlight_all=1
-let g:pyflakes_use_quickfix=1
-" skip all single-letter deletes (x)
-let g:yankring_min_element_length = 2
+" let g:pymode_options = 0
+" let g:pymode_syntax_print_as_function = 0
+" let g:pymode_rope_lookup_project = 1
+" let g:pymode_lint_ignore = "E128,W"
+" let g:pymode_quickfix_minheight = 2
+" let g:pymode_lint_signs = 0
+" let g:pymode_python = 'python'
+" let python_highlight_all=1
+" let g:pyflakes_use_quickfix=1
+" " skip all single-letter deletes (x)
+" let g:yankring_min_element_length = 2
 
 " save yankring entries across vim instances
 let g:yankring_persist = 1
@@ -208,9 +271,10 @@ let g:yankring_manage_numbered_reg = 1
 " -------- shortcuts -------------
 cmap gcc !gcc % -g -Wall -o inVimCompiled
 " ..sudo
-cmap w!! w !sudo tee > /dev/null %
+cmap W!! w !sudo tee > /dev/null %
 nnoremap ,ffo : !firefox % &<cr><cr>
-nnoremap ,te : !x-terminal-emulator &<cr><cr>
+nnoremap ,te :let b:p=expand("%:p:h")<cr>: !x-terminal-emulator b:p<cr><cr>
+
 " last search selection in commanline copy/paste
 cmap ,<Space> <C-R>/
 nnoremap ,<Space> /
@@ -315,6 +379,7 @@ nnoremap <m-h> 1<c-w><
 
 map <m-s> :StripWhitespace<CR>
 nnoremap <m-u> :nohlsearch<CR><m-u>
+nmap <F6> :set ignorecase!
 nnoremap <Leader>s :source %
 nnoremap <silent> <Leader>f :let @+=expand("%:p")<cr>:echo "Copied current file
       \ path '".expand("%:p")."' to clipboard"<cr>
@@ -343,23 +408,6 @@ let g:syntastic_jshint_exec='/usr/local/bin/jshint'
 " than useful, so just turn it off.
 highlight! link messagesError NONE
 
-
-fun! SetMkfile()
-  let filemk = "Makefile"
-  let pathmk = "./"
-  let depth = 1
-  while depth < 4
-    if filereadable(pathmk . filemk)
-      return pathmk
-    endif
-    let depth += 1
-    let pathmk = "../" . pathmk
-  endwhile
-  return "."
-endf
-
-command! -nargs=* Make tabnew | let $mkpath = SetMkfile() | make <args> -C $mkpath | cwindow 10
-
 "damit Alt oder M in gnome terminal funktioniert
 "let c='a'
 "while c <= 'z'
@@ -369,13 +417,10 @@ command! -nargs=* Make tabnew | let $mkpath = SetMkfile() | make <args> -C $mkpa
 "endw
 
 set timeout ttimeoutlen=50
-" ----
-" discretely highlight lines which are longer than the specified width
-" only long lines are highlighted (making this less intrusive than colorcolumn)
-" width defaults to 80. pass 0 to turn off.
 
 " ............. coloring
-colorscheme herald
+colorscheme pencil
+set background=dark
 "colorscheme heliotrope
 "colorscheme hybrid
 "colorscheme torte
