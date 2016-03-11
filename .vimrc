@@ -4,7 +4,8 @@ let &runtimepath = printf('%s/vimfiles,%s,%s/vimfiles/after', $VIM, $VIMRUNTIME,
 " what is the name of the directory containing this file?
 let s:portable = expand('<sfile>:p:h')
 " :execute '!touch' s:portable.'test.test'
-silent execute '!ln -s ~/dotfiles/my_vimrc.vim ' s:portable.'/plugin/my_vimrc.vim'
+" silent execute '!ln -s ~/dotfiles/my_func.vim ' s:portable.'/plugin/my_func.vim'
+" silent execute '!ln -s ~/dotfiles/my_vimrc.vim ' s:portable.'/plugin/my_vimrc.vim'
 
 " what is the name of the directory containing this file?
 " let s:portableVundle= s:portable . '/bundle/Vundle.vim'
@@ -38,10 +39,14 @@ Plug 'tpope/vim-pathogen'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/neocomplete.vim'
+Plug 'scrooloose/syntastic'
 Plug 'matze/vim-move'
 Plug 'easymotion/vim-easymotion'
-Plug 'bronson/vim-visual-star-search'
+Plug 'tpope/vim-fugitive'
 
+" to test -==========
+Plug 'bronson/vim-visual-star-search'
+Plug 'tmhedberg/SimpylFold'
 Plug 'jceb/vim-orgmode'
 " Plug 'laurentgoudet/vim-howdoi'
 " needs howdoi
@@ -52,8 +57,6 @@ Plug 'jceb/vim-orgmode'
 " Plug 'vim-scripts/YankRing.vim'
 "
 " Plugin 'kien/rainbow_parentheses.vim'"
-" Plug 'tpope/vim-commentary'
-" Plug 'tpope/vim-vinegar'
 Plug 'junegunn/vim-easy-align'
 Plug 'Yggdroot/indentLine'
 " https://github.com/Yggdroot/indentLine
@@ -63,7 +66,8 @@ Plug 'ap/vim-css-color'
 Plug 'luochen1990/rainbow'
 
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
+Plug 'jistr/vim-nerdtree-tabs'
+
 Plug 'scrooloose/nerdcommenter'
 " closes bracets
 Plug 'raimondi/delimitmate'
@@ -114,11 +118,8 @@ set hidden
 " 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
 " The following changes the default filetype back to 'tex':
 " let g:tex_flavor='latex'
-
-" Automatic reloading of .vimrc
-autocmd! bufwritepost .vimrc source %
-
 " Better copy & paste
+
 " When you want to paste large blocks of code into vim, press F2 before you
 " paste. At the bottom you should see ``-- INSERT (paste) --``.
 set pastetoggle=<F2>
@@ -202,18 +203,18 @@ set noswapfile
 
 " Better navigating through omnicomplete option list
 " See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
-set ofu=syntaxcomplete#Complete
-set completeopt=longest,menuone
-function! OmniPopup(action)
-    if pumvisible()
-        if a:action == 'j'
-            return "\<C-N>"
-            elseif a:action == 'k'
-            return "\<C-P>"
-        endif
-    endif
-return a:action
-endfunction
+" set ofu=syntaxcomplete#Complete
+" set completeopt=longest,menuone
+" function! OmniPopup(action)
+    " if pumvisible()
+        " if a:action == 'j'
+            " return "\<C-N>"
+            " elseif a:action == 'k'
+            " return "\<C-P>"
+        " endif
+    " endif
+" return a:action
+" endfunction
 
 "" inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
 "" inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
