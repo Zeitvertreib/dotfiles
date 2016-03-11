@@ -2,14 +2,29 @@
 let &runtimepath = printf('%s/vimfiles,%s,%s/vimfiles/after', $VIM, $VIMRUNTIME, $VIM)
 
 " what is the name of the directory containing this file?
+" portable load config:
 let s:portable = expand('<sfile>:p:h')
-" :execute '!touch' s:portable.'test.test'
+
 " silent execute '!ln -s ~/dotfiles/my_func.vim ' s:portable.'/plugin/my_func.vim'
 " silent execute '!ln -s ~/dotfiles/my_vimrc.vim ' s:portable.'/plugin/my_vimrc.vim'
 
-" what is the name of the directory containing this file?
 " let s:portableVundle= s:portable . '/bundle/Vundle.vim'
 let s:portableBundle= s:portable . '/bundle'
+
+function! Migrate_portable_vim()
+    let s:p_configs = [ "my_vimrc", "my_func"]
+    for f in s:p_configs
+        if findfile( f , s:portableBundle ) == 0
+            echom "not none"
+            echom f
+            echom findfile( f , s:portableBundle )
+            " execute '!ln -s ~/dotfiles/'.f.' ' s:portable.'/plugin/'.f
+        " execute '!touch ~/dotfiles/this'
+        endif
+    endfor
+endfunction
+
+" call Migrate_portable_vim()
 let g:neosnippet#snippets_directory= s:portable . '/snipps'
 
 " add the directory to 'runtimepath'
@@ -40,6 +55,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/neocomplete.vim'
 Plug 'scrooloose/syntastic'
+Plug 'ervandew/supertab'
 " ======================================
 " Plug 'carlhuda/janus'
 " Plug 'xolox/vim-easytags'
