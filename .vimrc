@@ -12,19 +12,19 @@ let s:portable = expand('<sfile>:p:h')
 let s:portableBundle= s:portable . '/bundle'
 
 function! Migrate_portable_vim()
-    let s:p_configs = [ "my_vimrc", "my_func"]
+    let s:portable_Plugin = s:portable . '/plugin'
+    let s:p_configs = [ "my_vimrc.vim", "my_func.vim"]
     for f in s:p_configs
-        if findfile( f , s:portableBundle ) == 0
-            echom "not none"
-            echom f
-            echom findfile( f , s:portableBundle )
-            " execute '!ln -s ~/dotfiles/'.f.' ' s:portable.'/plugin/'.f
-        " execute '!touch ~/dotfiles/this'
+      let qq = s:portable_Plugin.'/'.f
+        if filereadable( expand(qq)) == 0
+            echom "create symlink @: ".qq
+            execute '!ln -s ~/dotfiles/'.f.' '.qq
         endif
     endfor
 endfunction
 
-" call Migrate_portable_vim()
+call Migrate_portable_vim()
+
 let g:neosnippet#snippets_directory= s:portable . '/snipps'
 
 " add the directory to 'runtimepath'
