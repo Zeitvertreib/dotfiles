@@ -174,35 +174,39 @@ map ,k :NERDTreeFind<CR>
 let NERDTreeIgnore = ['\.pyc$', '^__pycache__$']
 let NERDTreeChDirMode = 0
 " CtrlSpace
-if has("gui_running")
-    set mouse=a
-    set mousemodel=popup
-    set guioptions-=L
-    set guioptions-=R
-    "set guioptions=m "minimal tags...
-    set guioptions-=m "remove menue toolbar right/left scroll
-    set guioptions-=T "remove menue toolbar right/left scroll
-    set guioptions-=r "remove menue toolbar right/left scroll
-    set guioptions-=l "remove menue toolbar right/left scroll
-    set guioptions-=e "remove guioptions
-    set guicursor=n-v-c:block-Cursor-blinkon0
-    set guicursor+=ve:ver35-Cursor
-    set guicursor+=o:hor50-Cursor
-    set guicursor+=i-ci:ver25-Cursor
-    set guicursor+=r-cr:hor20-Cursor
-    set guicursor+=sm:block-Cursor-blinkwait175-blinkoff150-blinkon17
-    set guifont=Monospace\ 10
-    "set guifont=Ubuntu\ Mono
-    hi CtrlSpaceSelected guifg=#021B25 guibg=#93A1A1 gui=bold
-    hi CtrlSpaceNormal guifg=#839496 guibg=#021B25 gui=NONE
-    hi CtrlSpaceSearch guifg=#9b1b06 guibg=NONE gui=bold
-    hi CtrlSpaceStatus guifg=#000000 guibg=#667B83 gui=NONE
-else
-    hi CtrlSpaceSelected term=reverse ctermfg=187 guifg=#d7d7af ctermbg=23 guibg=#005f5f cterm=bold gui=bold
-    hi CtrlSpaceNormal term=NONE ctermfg=244 guifg=#808080 ctermbg=232 guibg=#080808 cterm=NONE gui=NONE
-    hi CtrlSpaceSearch ctermfg=220 guifg=#ffd700 ctermbg=NONE guibg=NONE cterm=bold gui=bold
-    hi CtrlSpaceStatus ctermfg=230 guifg=#ffffd7 ctermbg=234 guibg=#1c1c1c cterm=NONE gui=NONE
-endif
+function! CtrlSpace_coloring()
+    if has("gui_running")
+        set mouse=a
+        set mousemodel=popup
+        set guioptions-=L
+        set guioptions-=R
+        "set guioptions=m "minimal tags...
+        set guioptions-=m "remove menue toolbar right/left scroll
+        set guioptions-=T "remove menue toolbar right/left scroll
+        set guioptions-=r "remove menue toolbar right/left scroll
+        set guioptions-=l "remove menue toolbar right/left scroll
+        set guioptions-=e "remove guioptions
+        set guicursor=n-v-c:block-Cursor-blinkon0
+        set guicursor+=ve:ver35-Cursor
+        set guicursor+=o:hor50-Cursor
+        set guicursor+=i-ci:ver25-Cursor
+        set guicursor+=r-cr:hor20-Cursor
+        set guicursor+=sm:block-Cursor-blinkwait175-blinkoff150-blinkon17
+        set guifont=Monospace\ 10
+        "set guifont=Ubuntu\ Mono
+        hi CtrlSpaceSelected guifg=#021B25 guibg=#93A1A1 gui=bold
+        hi CtrlSpaceNormal guifg=#839496 guibg=#021B25 gui=NONE
+        hi CtrlSpaceSearch guifg=#9b1b06 guibg=NONE gui=bold
+        hi CtrlSpaceStatus guifg=#000000 guibg=#667B83 gui=NONE
+    else
+        hi CtrlSpaceSelected term=reverse ctermfg=187 guifg=#d7d7af ctermbg=23 guibg=#005f5f cterm=bold gui=bold
+        hi CtrlSpaceNormal term=NONE ctermfg=244 guifg=#808080 ctermbg=232 guibg=#080808 cterm=NONE gui=NONE
+        hi CtrlSpaceSearch ctermfg=220 guifg=#ffd700 ctermbg=NONE guibg=NONE cterm=bold gui=bold
+        hi CtrlSpaceStatus ctermfg=230 guifg=#ffffd7 ctermbg=234 guibg=#1c1c1c cterm=NONE gui=NONE
+    endif
+endfunction
+
+" call CtrlSpace_coloring()
 
 let g:ctrlspace_use_horizontal_splits=1
 let g:ctrlspace_save_workspace_on_exit=1
@@ -294,7 +298,7 @@ vnoremap < <gv
 vnoremap > >gv
 " Toggle and untoggle spell checking
 "noremap <leader>ss :setlocal spell! spelllang=de<cr>
-" F1 is annoying
+" annoying F1
 inoremap ,. <Esc>
 vnoremap ,. <Esc>
 
@@ -419,15 +423,16 @@ highlight! link messagesError NONE
 set timeout ttimeoutlen=50
 
 " ............. coloring
-colorscheme pencil
+" color darkspectrum
+color herald
+" colorscheme pencil
 set background=dark
 "colorscheme heliotrope
 "colorscheme hybrid
 "colorscheme torte
 "colorscheme no_quarter
 "colorscheme relaxedgreen
-"colorscheme railscasts
-"colorscheme pw
+" colorscheme pw
 "colorscheme paintbox
 "colorscheme moss
 "colorscheme nour
@@ -442,6 +447,7 @@ set background=dark
 "colorscheme twilight
 "colorscheme yeller
 "colorscheme zmrok
+" colorscheme darkburn
 " You need to reload this file for the change to apply
 
 highlight ExtraWhitespace ctermbg=NONE
@@ -468,8 +474,6 @@ filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 
 set makeprg="make -C build"
-
-
 
 " set showtabline=0
 " au BufRead .* setf sh
