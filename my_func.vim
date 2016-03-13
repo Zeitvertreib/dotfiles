@@ -1,3 +1,5 @@
+" echo "portable ".expand('<sfile>')." used"
+
 " Called with a command and a redirection target
 "   (see `:help redir` for info on redirection targets)
 " Note that since this is executed in function context,
@@ -65,3 +67,16 @@ command! -nargs=* Make tabnew | let $mkpath = SetMkfile() | make <args> -C $mkpa
   " activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
   " execfile(activate_this, dict(__file__=activate_this))
 " EOF
+"" open URL under cursor in browser
+" function! <SID>OpenURL(url)
+	" if has("win32")
+		" exe "!start cmd /cstart /b ".a:url.""
+	" elseif $DISPLAY !~ '^\w'
+		" exe "silent !sensible-browser \"".a:url."\""
+	" else
+		" exe "silent !sensible-browser -T \"".a:url."\""
+	" endif
+	" redraw!
+" endfunction
+" command! -nargs=1 OpenURL :call <SID>OpenURL(<q-args>)
+" nnoremap gb :OpenURL <cfile><CR>

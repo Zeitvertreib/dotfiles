@@ -1,34 +1,19 @@
 " set default 'runtimepath' (without ~/.vim folders)
 let &runtimepath = printf('%s/vimfiles,%s,%s/vimfiles/after', $VIM, $VIMRUNTIME, $VIM)
+" echo "portable ".expand('<sfile>')." used"
 
 " what is the name of the directory containing this file?
 " portable load config:
-let s:portable = expand('<sfile>:p:h')
+let g:portable = expand('<sfile>:p:h')
 
-" silent execute '!ln -s ~/dotfiles/my_func.vim ' s:portable.'/plugin/my_func.vim'
-" silent execute '!ln -s ~/dotfiles/my_vimrc.vim ' s:portable.'/plugin/my_vimrc.vim'
+" silent execute '!ln -s ~/dotfiles/my_func.vim ' g:portable.'/plugin/my_func.vim'
+" silent execute '!ln -s ~/dotfiles/my_vimrc.vim ' g:portable.'/plugin/my_vimrc.vim'
 
-" let s:portableVundle= s:portable . '/bundle/Vundle.vim'
-let s:portableBundle= s:portable . '/bundle'
-
-function! Migrate_portable_vim()
-    let s:portable_Plugin = s:portable . '/plugin'
-    let s:p_configs = [ "my_vimrc.vim", "my_func.vim"]
-    for f in s:p_configs
-      let qq = s:portable_Plugin.'/'.f
-        if filereadable( expand(qq)) == 0
-            echom "create symlink @: ".qq
-            execute '!ln -s ~/dotfiles/'.f.' '.qq
-        endif
-    endfor
-endfunction
-
-call Migrate_portable_vim()
-
-let g:neosnippet#snippets_directory= s:portable . '/snipps'
+" let s:portableVundle= g:portable . '/bundle/Vundle.vim'
+let s:portableBundle= g:portable . '/bundle'
 
 " add the directory to 'runtimepath'
-let &runtimepath = printf('%s,%s,%s/after', s:portable, &runtimepath, s:portable)
+let &runtimepath = printf('%s,%s,%s/after', g:portable, &runtimepath, g:portable)
 
 " start vim with: vim -u /path/to/portable/vim/.vimrc
 " in HOME/.vimrc :source /media/datenspeicher/data/global_conf/portable_vimrc/.vim/.vimrc
@@ -44,18 +29,27 @@ call plug#begin(s:portableBundle)
 
 " let Vundle manage Vundle, required
 " Plugin 'VundleVim/Vundle.vim'
+Plug 'tpope/vim-pathogen'
 
+Plug 'dahu/vimple'
 Plug 'vim-ctrlspace/vim-ctrlspace'
 " Plug 'virtual env'
+Plug 'chrisbra/NrrwRgn'
 Plug 'vim-airline/vim-airline'
-Plug 'mattn/emmet-vim'
+Plug 'vim-airline/vim-airline-themes'
 " Plug 'tpope/vim-surround'
-Plug 'tpope/vim-pathogen'
+Plug 'mattn/emmet-vim'
+
+" IDE-ish
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/neocomplete.vim'
 Plug 'scrooloose/syntastic'
+Plug 'lambdalisue/vim-pyenv'
+
 Plug 'ervandew/supertab'
+Plug 'wincent/command-t'
+
 " ======================================
 " Plug 'carlhuda/janus'
 " Plug 'xolox/vim-easytags'
@@ -69,8 +63,11 @@ Plug 'tpope/vim-fugitive'
 
 " to test -==========
 Plug 'bronson/vim-visual-star-search'
-Plug 'tmhedberg/SimpylFold'
+" Plug 'tmhedberg/SimpylFold'
+Plug 'Konfekt/FastFold'
+" Plug 'chrisbra/changesPlugin'
 Plug 'jceb/vim-orgmode'
+
 " Plug 'laurentgoudet/vim-howdoi'
 " needs howdoi
 " pip install howdoi
@@ -82,6 +79,15 @@ Plug 'jceb/vim-orgmode'
 " Plugin 'kien/rainbow_parentheses.vim'"
 Plug 'junegunn/vim-easy-align'
 Plug 'Yggdroot/indentLine'
+" Plug 'nathanaelkane/vim-indent-guides'
+" highten up around cursor, nice
+Plug 'junegunn/limelight.vim'
+" automated disable hl, not sure, if needed
+" Plug 'pgdouyon/vim-evanesco'
+Plug 'junegunn/vim-pseudocl'
+Plug 'junegunn/vim-oblique'
+
+" Plug 'mechatroner/rainbow_csv'
 " https://github.com/Yggdroot/indentLine
 Plug 'ap/vim-css-color'
 " alternative try:
@@ -89,7 +95,7 @@ Plug 'ap/vim-css-color'
 Plug 'luochen1990/rainbow'
 
 Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
+" Plug 'jistr/vim-nerdtree-tabs'
 
 Plug 'scrooloose/nerdcommenter'
 " closes bracets
@@ -109,6 +115,9 @@ Plug 'raimondi/delimitmate'
 Plug 'jelera/vim-javascript-syntax'
 
 " colorshemes:
+Plug 'ewilazarus/preto'
+Plug 'pgdouyon/vim-yin-yang'
+
 Plug 'whatyouhide/vim-gotham'
 Plug 'atelierbram/vim-colors_duotones'
 Plug 'PotatoesMaster/vim-colors-harold'
@@ -121,6 +130,20 @@ call plug#end()            " required
 
 call pathogen#infect()
 call pathogen#helptags()
+
+function! Migrate_portable_vim()
+    let s:portable_Plugin = g:portable . '/plugin'
+    let s:p_configs = [ "my_vimrc.vim", "my_func.vim"]
+    for f in s:p_configs
+      let qq = s:portable_Plugin.'/'.f
+        if filereadable( expand(qq)) == 0
+            echom "create symlink @: ".qq
+            execute '!ln -s ~/dotfiles/'.f.' '.qq
+        endif
+    endfor
+endfunction
+
+call Migrate_portable_vim()
 
 syntax enable
 

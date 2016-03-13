@@ -1,25 +1,26 @@
+" echom "portable ".expand('<sfile>')." used"
+
 " ln -s ~/my_dotfiles/my_vimrc.vim ../plugin/my_vimrc.vim
 " Automatic reloading of .vimrc
 " autocmd! bufwritepost my_vimrc.vim source %
 
+" in case of system overwrite
+let $LANG = 'en'
+set langmenu=en_US.UTF-8
+
+" If there are two windows with scroll bind option enabled, scroll them simultaneously.
+    " setl scrollbind
+" Scrolling asynchrously in splitted windows, even with same buffer.
+    " set noscrollbind
+set more
+set history=200
+set diffopt=vertical
 set ttimeout
 set ttimeoutlen=100
-"" vimconf is not vi-compatible
-"set nocompatible
-" window size
 set ch=2 " Make command line two lines high
 set number
+set relativenumber
 set list
-if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
-    let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
-endif
-
-" enable automatic yanking to and pasting from the selection
-if has('unnamedplus')
-    set clipboard=unnamedplus,unnamed
-else
-    set clipboard+=unnamed
-endif
 set wildmenu
 set formatoptions-=t " Do not auto-wrap text using textwidth
 set formatoptions+=c " Auto-wrap comments using textwidth
@@ -44,10 +45,11 @@ set wildignore+=*.pyc
 " set statusline=\ %t\ %l\/%L
 set laststatus=2
 set modelines=0
+set undofile
 " CURSOR {{{
 "set cursorline
 set sidescroll=1
-set sidescrolloff=30
+set sidescrolloff=20
 set scrolloff=50 "scrollabstand zu unten und oben?
 " WRAPPING {{{
 nnoremap <M-w> :set wrap!<CR>
@@ -56,11 +58,25 @@ set linebreak " wrap at word breaks
 " set showbreak=… " show an ellipsis at the start of wrapped lines
 " let &flp='\w\+> '
 set cpoptions+=n
-set showbreak=>\ _
 highlight NonText ctermfg=None     " Theme your indent symbols
 set tw=80
 " }}}
 set lazyredraw
+" delicious, enable showbreak when breakindent not working
+set breakindent
+" set showbreak=>\ _
+" Always substitute all letters, not just substitute first hit on line
+set gdefault
+if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
+    let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
+endif
+" enable automatic yanking to and pasting from the selection
+if has('unnamedplus')
+    set clipboard=unnamedplus,unnamed
+else
+    set clipboard+=unnamed
+endif
+" set viminfo=%,'9999,s512,nexpand('g:portable')
 
 " -------------  plugins -------------
 let g:airline_right_sep=''
@@ -85,6 +101,14 @@ imap <expr><C-l>
 "let g:UltiSnipsListSnippets="<c-b>"
 "Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
 " Disable AutoComplPop.
+" Better Completion {
+set complete=.,w,b,u,t
+set completeopt=longest,menuone,preview
+set wildcharm=<TAB>
+" Specify a function to be used for Insert mode omni.
+    " set omnifunc=syntaxcomplete#Complete
+let g:neosnippet#snippets_directory= g:portable . '/snipps'
+
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
 let g:neocomplete#enable_at_startup = 1
@@ -93,8 +117,9 @@ let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
+let g:neocomplete#enable_auto_select = 1
 " Define dictionary.
+" let g:neocomplete#sources.py = ['buffer']
 let g:neocomplete#sources#dictionary#dictionaries = {
     \ 'default' : '',
     \ 'vimshell' : $HOME.'/.vimshell_hist',
@@ -124,24 +149,26 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+
+" add those:
+" :NeoCompleteDisable
+" NeoCompleteToggle
+" NeoCompleteAutoCompletionLength
 " Close popup by <Space>.
 "inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
 
-" AutoComplPop like behavior.
-"let g:neocomplete#enable_auto_select = 1
-
 " Shell like behavior(not recommended).
 "set completeopt+=longest
-"let g:neocomplete#enable_auto_select = 1
+let g:neocomplete#enable_auto_select = 1
 "let g:neocomplete#disable_auto_complete = 1
 "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
 
 " Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -155,12 +182,6 @@ endif
 " https://github.com/c9s/perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 "let g:EasyMotion_keys = 'asdghklqwertyuiopzxcvbnmfj21'
 let g:EasyMotion_keys = 'asdplje'
 " forget about mappings in mks
@@ -206,7 +227,7 @@ function! CtrlSpace_coloring()
     endif
 endfunction
 
-" call CtrlSpace_coloring()
+call CtrlSpace_coloring()
 
 let g:ctrlspace_use_horizontal_splits=1
 let g:ctrlspace_save_workspace_on_exit=1
@@ -278,12 +299,32 @@ cmap gcc !gcc % -g -Wall -o inVimCompiled
 cmap W!! w !sudo tee > /dev/null %
 nnoremap ,ffo : !firefox % &<cr><cr>
 nnoremap ,te :let b:p=expand("%:p:h")<cr>: !x-terminal-emulator b:p<cr><cr>
+" Delete line under your current position (Delete next-line).
+    nnoremap do myjdd`y
+" Jump outside any parentheses or quotes, when your cursor is inside a closed region.
+    " inoremap jj <Esc>/[)}"'\]>]<CR>:nohl<CR>a
+
+" Make em uppercase, not only the character, but the whole word. Which is more common.
+    nnoremap gU <esc>mz<esc>gUiw`z
+    vnoremap gU <esc>mz<esc>gvgU`z
+
+" And make it lowercase.
+    nnoremap gu <esc>mz<esc>guiw`z
+    vnoremap gu <esc>mz<esc>gvgu`z
+" When open the line under you, stay in normal mode. I noticed I keep the normal modus most of the time.
+    nnoremap O O<Esc>
+    nnoremap o o<Esc>
+
+" Look for the same words.
+    nnoremap <S-LeftMouse> <LeftMouse>:<C-U>let @/='\<'.expand("<cword>").'\>'<CR>:set hlsearch<CR>
 
 " last search selection in commanline copy/paste
 cmap ,<Space> <C-R>/
 nnoremap ,<Space> /
 
 " -------- mappings -------------
+
+" nnoremap <c-i> let @i=expand("<cword>")<CR><ESC> :h echo @h
 let mapleader = ","
 noremap # *
 noremap * #
@@ -299,8 +340,10 @@ vnoremap > >gv
 " Toggle and untoggle spell checking
 "noremap <leader>ss :setlocal spell! spelllang=de<cr>
 " annoying F1
-inoremap ,. <Esc>
-vnoremap ,. <Esc>
+inoremap jk <Esc>
+vnoremap jk <Esc>
+inoremap kj <Esc>
+vnoremap kj <Esc>
 
 " switch to last buffer
 nnoremap <leader>d <c-^>
@@ -327,6 +370,10 @@ vnoremap ;; "hy:%s/<C-r>h//gc<left><left><left>
 
 "sprünge im normal-mode für :help
 map t <C-]>
+" Open the file under the cursor.
+    " nnoremap gt :tabnew<CR>:e#<CR>:e <cfile><cr>
+    " nnoremap gf :vsplit<CR>:wincmd l<CR>:e <cfile><cr>
+    " nnoremap gF :e <cfile><cr>
 "" pymode order togglebar / jump folds / closes fold
 "map mj <esc>]z
 "map mk <esc>[z
@@ -371,10 +418,11 @@ vnoremap <C-x> "+x
 vnoremap <C-v> "+gP
 " map <c-c> "*y
 " window movement
-" nnoremap <c-j> <c-w>j
-" nnoremap <c-k> <c-w>k
-nnoremap <c-l> <c-w>l
-nnoremap <c-h> <c-w>h
+nnoremap s <c-w>
+" nnoremap gj <c-w>j
+" nnoremap gk <c-w>k
+" nnoremap gl <c-w>l
+" nnoremap gh <c-w>h
 " window-sizing...
 nnoremap <m-j> 1<c-w>-
 nnoremap <m-k> 1<c-w>+
@@ -387,11 +435,11 @@ nmap <F6> :set ignorecase!
 nnoremap <Leader>s :source %
 nnoremap <silent> <Leader>f :let @+=expand("%:p")<cr>:echo "Copied current file
       \ path '".expand("%:p")."' to clipboard"<cr>
-
+ " nnoremap <A-n> :hi StatusLineNC GUIBg=#141414 guifg=#9a7824 gui=underline<CR>:hi StatusLine guifg=#9a7824 guibg=#141414 gui=underline<CR>:split<CR>
 " ----- workarounds/functions -----
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -405,6 +453,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
 " Use flake8
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_python_flake8_args = '--ignore="E501,E302,E261,E701,E241,E126,E127,E128,W801"'
+let g:syntastic_python_python_exec = '/bin/python3'
 " Use jshint (uses ~/.jshintrc)
 let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_jshint_exec='/usr/local/bin/jshint'
@@ -420,13 +469,15 @@ highlight! link messagesError NONE
   "let c = nr2char(1+char2nr(c))
 "endw
 
-set timeout ttimeoutlen=50
+set timeout ttimeoutlen=500
 
 " ............. coloring
-" color darkspectrum
-color herald
-" colorscheme pencil
 set background=dark
+" colorscheme pencil
+colorscheme gotham256
+" colorscheme vj
+" color darkspectrum
+" color herald
 "colorscheme heliotrope
 "colorscheme hybrid
 "colorscheme torte
@@ -442,7 +493,6 @@ set background=dark
 "colorscheme desert
 "colorscheme industry
 "colorscheme Mustang
-"colorscheme vj
 "colorscheme base16-atelierseaside
 "colorscheme twilight
 "colorscheme yeller
@@ -485,3 +535,29 @@ set makeprg="make -C build"
 " au BufReadPost *.java colorscheme monokai
 "au BufReadPost *.php colorscheme two2tango
 
+" " The Vanilla Vim is not so good in formatting lines, so improve them: {
+
+    " " Recognize numbered lists
+     " set formatoptions+=n
+
+    " " Use indent from 2nd line of a paragraph
+     " set formatoptions+=2
+
+    " " Don't break lines that are already long
+     " set formatoptions+=l
+
+    " " Break before 1-letter words
+     " set formatoptions+=1
+
+    " " Delete comment character when joining commented lines, so two lines of comment becomes one line when joining, without comment mark.
+    " if v:version + has("patch541") >= 704
+        " set formatoptions+=j
+    " endif
+
+    " " Don't continue comment mark after press 'o' when youre on a commented line
+     " set formatoptions -=cro
+
+    " " See the help under formatoptions for details
+     " set formatoptions=tqw
+" " }
+" https://github.com/ehartc/dot-vimrc/blob/master/vim%20config/fold.vim
