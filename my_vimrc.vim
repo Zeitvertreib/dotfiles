@@ -15,8 +15,7 @@ set langmenu=en_US.UTF-8
 set more
 set history=200
 set diffopt=vertical
-set ttimeout
-set ttimeoutlen=100
+" set ttimeout ttimeoutlen=100
 set ch=2 " Make command line two lines high
 set number
 set relativenumber
@@ -31,8 +30,8 @@ set formatoptions+=l " Don't break long lines if it was long when entering inser
 set formatoptions+=1 " Don't break after 1-letter word, break before it
 set formatoptions+=j " Remove comment leader wehn joining lines
 set showcmd
-set showmatch
-set matchtime=2
+" set showmatch
+" set matchtime=2
 set matchpairs+=<:>
 set ignorecase
 set smartcase "großgeschriebenes wird casesensitive
@@ -62,9 +61,10 @@ highlight NonText ctermfg=None     " Theme your indent symbols
 set tw=80
 " }}}
 set lazyredraw
+" set showbreak=>\ _
 " delicious, enable showbreak when breakindent not working
 set breakindent
-" set showbreak=>\ _
+set sb spr | "split below and right
 " Always substitute all letters, not just substitute first hit on line
 set gdefault
 if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
@@ -88,100 +88,6 @@ let g:yankring_persist = 0
 let g:rainbow_active = 1
 let g:move_key_modifier = 'C'
 let NERDSpaceDelims=1
-"g:neosnippet#disable_runtime_snippets
-"i_<C-l> v_<C-l> xpt-key-trigger g:xptemplate_key
-let g:neosnippet#enable_preview=1
-imap <expr><C-l>
-\ neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<C-n>"
-
-"let g:UltiSnipsExpandTrigger="ds"
-"let g:UltiSnipsJumpBackwardTrigger="<c-tab>"
-"let g:UltiSnipsJumpForwardTrigger=">"
-"let g:UltiSnipsListSnippets="<c-b>"
-"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-" Disable AutoComplPop.
-" Better Completion {
-set complete=.,w,b,u,t
-set completeopt=longest,menuone,preview
-set wildcharm=<TAB>
-" Specify a function to be used for Insert mode omni.
-    " set omnifunc=syntaxcomplete#Complete
-let g:neosnippet#snippets_directory= g:portable . '/snipps'
-
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-let g:neocomplete#enable_auto_select = 1
-" Define dictionary.
-" let g:neocomplete#sources.py = ['buffer']
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-
-" add those:
-" :NeoCompleteDisable
-" NeoCompleteToggle
-" NeoCompleteAutoCompletionLength
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
-
-" Shell like behavior(not recommended).
-"set completeopt+=longest
-let g:neocomplete#enable_auto_select = 1
-"let g:neocomplete#disable_auto_complete = 1
-"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-
-" Enable omni completion.
-" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-" For perlomni.vim setting.
-" https://github.com/c9s/perlomni.vim
-let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-
 "let g:EasyMotion_keys = 'asdghklqwertyuiopzxcvbnmfj21'
 let g:EasyMotion_keys = 'asdplje'
 " forget about mappings in mks
@@ -273,18 +179,6 @@ let g:tagbar_type_go = {
     \ 'ctagsbin' : 'gotags',
     \ 'ctagsargs' : '-sort -silent'
 \ }
-" full Python syntax highlighting
-" let g:pymode_options = 0
-" let g:pymode_syntax_print_as_function = 0
-" let g:pymode_rope_lookup_project = 1
-" let g:pymode_lint_ignore = "E128,W"
-" let g:pymode_quickfix_minheight = 2
-" let g:pymode_lint_signs = 0
-" let g:pymode_python = 'python'
-" let python_highlight_all=1
-" let g:pyflakes_use_quickfix=1
-" " skip all single-letter deletes (x)
-" let g:yankring_min_element_length = 2
 
 " save yankring entries across vim instances
 let g:yankring_persist = 1
@@ -297,8 +191,13 @@ let g:yankring_manage_numbered_reg = 1
 cmap gcc !gcc % -g -Wall -o inVimCompiled
 " ..sudo
 cmap W!! w !sudo tee > /dev/null %
+
+nnoremap <c-i> :let @i=expand("<cword>")<CR>:h <C-R>i<CR>
 nnoremap ,ffo : !firefox % &<cr><cr>
-nnoremap ,te :let b:p=expand("%:p:h")<cr>: !x-terminal-emulator b:p<cr><cr>
+" following 2 should be merged
+nnoremap ,te :let @p=expand("%:p:h")<cr>: !x-terminal-emulator -T --command="cd <C-R>p"
+nnoremap ,cd :cd %:p:h<CR>:pwd<CR>
+map pyk :!idle-python3.2 -r % & <CR> <CR>
 " Delete line under your current position (Delete next-line).
     nnoremap do myjdd`y
 " Jump outside any parentheses or quotes, when your cursor is inside a closed region.
@@ -307,14 +206,12 @@ nnoremap ,te :let b:p=expand("%:p:h")<cr>: !x-terminal-emulator b:p<cr><cr>
 " Make em uppercase, not only the character, but the whole word. Which is more common.
     nnoremap gU <esc>mz<esc>gUiw`z
     vnoremap gU <esc>mz<esc>gvgU`z
-
 " And make it lowercase.
     nnoremap gu <esc>mz<esc>guiw`z
     vnoremap gu <esc>mz<esc>gvgu`z
 " When open the line under you, stay in normal mode. I noticed I keep the normal modus most of the time.
     nnoremap O O<Esc>
     nnoremap o o<Esc>
-
 " Look for the same words.
     nnoremap <S-LeftMouse> <LeftMouse>:<C-U>let @/='\<'.expand("<cword>").'\>'<CR>:set hlsearch<CR>
 
@@ -323,8 +220,8 @@ cmap ,<Space> <C-R>/
 nnoremap ,<Space> /
 
 " -------- mappings -------------
-
-" nnoremap <c-i> let @i=expand("<cword>")<CR><ESC> :h echo @h
+nnoremap ä `
+nnoremap ö '
 let mapleader = ","
 noremap # *
 noremap * #
@@ -338,12 +235,7 @@ vnoremap <Leader>a, :Tabularize /,/l0r1<CR>
 vnoremap < <gv
 vnoremap > >gv
 " Toggle and untoggle spell checking
-"noremap <leader>ss :setlocal spell! spelllang=de<cr>
-" annoying F1
-inoremap jk <Esc>
-vnoremap jk <Esc>
-inoremap kj <Esc>
-vnoremap kj <Esc>
+"noremap <leader>ss :setlocal spell! spelllang=de
 
 " switch to last buffer
 nnoremap <leader>d <c-^>
@@ -361,8 +253,12 @@ command! Rechner <C-R>=string(eval(input("Berechne: ")))<CR>
 " macht :h vertival, BEACHTE ^H!
 command! -nargs=* -complete=help Help vertical belowright help <args>
 "substitude find and replace
-noremap ;; :%s:::g<Left><Left><Left><C-R>/<Right>
 vnoremap ;; "hy:%s/<C-r>h//gc<left><left><left>
+vnoremap <leader><space> "hy/<C-r>h
+" nnoremap <Leader>w :let @/=expand("<cword>")<Bar>split<Bar>normal n<CR>
+nnoremap <Leader>W :let @/='\<'.expand("<cword>").'\>'<Bar>vsplit<Bar>normal n<CR>
+
+noremap ;; :%s:::g<Left><Left><Left><C-R>/<Right>
 " macht in regex : anstelle \
 " s/\/dir1\/dir2\/dir3\/file/dir4\/dir5\/file2/g
 " sieht dann so aus:
@@ -374,19 +270,11 @@ map t <C-]>
     " nnoremap gt :tabnew<CR>:e#<CR>:e <cfile><cr>
     " nnoremap gf :vsplit<CR>:wincmd l<CR>:e <cfile><cr>
     " nnoremap gF :e <cfile><cr>
-"" pymode order togglebar / jump folds / closes fold
-"map mj <esc>]z
-"map mk <esc>[z
-"map mh <esc>zc
+
 "ignore wrap when moving
 nnoremap j gj
 nnoremap k gk
 " changes current working dir
-nnoremap ,cd :cd %:p:h<CR>:pwd<CR>
-"select whole word
-"nnoremap <space> vi
-" idle mapping
-map pyk :!idle-python3.2 -r % & <CR> <CR>
 " closing tags in INSERT MODE
 " inoremap <Leader>( ()<Esc>i
 " inoremap <Leader>) ()<Esc>i
@@ -419,6 +307,8 @@ vnoremap <C-v> "+gP
 " map <c-c> "*y
 " window movement
 nnoremap s <c-w>
+" needs to be reworked, cuz jumps back
+nnoremap vw viw
 " nnoremap gj <c-w>j
 " nnoremap gk <c-w>k
 " nnoremap gl <c-w>l
@@ -469,12 +359,11 @@ highlight! link messagesError NONE
   "let c = nr2char(1+char2nr(c))
 "endw
 
-set timeout ttimeoutlen=500
-
 " ............. coloring
 set background=dark
+" colorscheme gotham256
+colorscheme knuckleduster
 " colorscheme pencil
-colorscheme gotham256
 " colorscheme vj
 " color darkspectrum
 " color herald
@@ -521,7 +410,6 @@ hi Todo  guifg=orangered guibg=gray10 gui=bold
 
 " -------------last words
 filetype plugin on
-set omnifunc=syntaxcomplete#Complete
 
 set makeprg="make -C build"
 
@@ -561,3 +449,25 @@ set makeprg="make -C build"
      " set formatoptions=tqw
 " " }
 " https://github.com/ehartc/dot-vimrc/blob/master/vim%20config/fold.vim
+" set tags+=tags;$HOME            " look for tags in parent dirs
+" set suffixes+=.class            " ignore Java class files
+" set suffixes+=.pyc,.pyo         " ignore compiled Python files
+" set suffixes+=.egg-info         " ignore compiled Python files
+" set suffixes+=.~1~,.~2~         " ignore Bazaar droppings
+" set wildignore+=*.pyc,*.pyo     " same as 'suffixes', but for tab completion
+" set wildignore+=*.o,*.d,*.so    " same as 'suffixes', but for tab completion
+" set wildignore+=*.egg-info/**   " same as 'suffixes', but for tab completion
+" set wildignore+=*~              " same as 'suffixes', but for tab completion
+" set wildignore+=local/**        " virtualenv
+" set wildignore+=build/**        " distutils, I hates them
+" set wildignore+=dist/**         " distutils deliverables
+" set wildignore+=htmlcov/**      " coverage.py
+" set wildignore+=coverage/**     " zope.testrunner --coverage
+" set wildignore+=parts/omelette/** " collective.recipe.omelette
+" set wildignore+=parts/**        " all buildout-generated junk even
+" set wildignore+=.venv/**        " virtualenv
+" set wildignore+=eggs/**         " virtualenv
+" set wildignore+=.tox/**         " tox
+" set wildignore+=_build/**       " sphinx
+" set wildignore+=python/**       " virtualenv called 'python'
+" set wildignore+=__pycache__/**  " compiled python files
