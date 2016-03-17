@@ -1,3 +1,5 @@
+let g:syntastic_python_checkers = ['pylint']
+let g:syntastic_python_python_exec = '/user/bin/python3'
 " to experiment w the settings w/o getting confused
 "i_<C-l> v_<C-l> xpt-key-trigger g:xptemplate_key
 let g:neosnippet#enable_preview=1
@@ -106,7 +108,3 @@ set completeopt=menuone,preview
     " endif
 " return a:action
 " endfunction
-
-" inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
-" inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
-

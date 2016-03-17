@@ -37,7 +37,7 @@ Plug 'vim-ctrlspace/vim-ctrlspace'
 Plug 'chrisbra/NrrwRgn'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
 
 " IDE-ish
@@ -45,7 +45,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/neocomplete.vim'
 Plug 'scrooloose/syntastic'
-Plug 'lambdalisue/vim-pyenv'
+" Plug 'lambdalisue/vim-pyenv'
 
 Plug 'ervandew/supertab'
 Plug 'wincent/command-t'
@@ -54,7 +54,7 @@ Plug 'wincent/command-t'
 " Plug 'carlhuda/janus'
 " Plug 'xolox/vim-easytags'
 " Plug 'rkulla/pydiction'
-" Plug 'fboender/bexec'
+Plug 'fboender/bexec'
 " ======================================
 " Plug 'LucHermitte/lh-vim-lib'
 " Plug 'LucHermitte/lh-tags'
@@ -134,8 +134,8 @@ Plug 'flazz/vim-colorschemes'
 
 call plug#end()            " required
 
-" call pathogen#infect()
-" call pathogen#helptags()
+call pathogen#infect()
+call pathogen#helptags()
 
 function! Migrate_portable_vim()
     let s:portable_Plugin = g:portable . '/plugin'
