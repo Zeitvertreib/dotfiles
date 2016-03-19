@@ -6,7 +6,10 @@ let g:neosnippet#enable_preview=1
 imap <expr><C-l>
 \ neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)" : "\<C-n>"
-
+" call g:SyntasticRegistry.CreateAndRegisterChecker({
+    \ 'filetype': 'python',
+    \ 'name': 'python',
+    \ 'enable': 'enable_python_checker'})
 "let g:UltiSnipsExpandTrigger="ds"
 "let g:UltiSnipsJumpBackwardTrigger="<c-tab>"
 "let g:UltiSnipsJumpForwardTrigger=">"
@@ -58,8 +61,6 @@ endfunction
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 
 " add those:
 " :NeoCompleteDisable

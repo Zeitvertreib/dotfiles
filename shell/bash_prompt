@@ -1,0 +1,7 @@
+# inspired/ stolen by tpope (mainly coloring)
+usercolor='01;33'
+dircolor='01;34'
+timecolor='02;10'
+
+PS1='\[\e['$timecolor'm\] [ \D{%W %R} ]\[\e[00m\] | \[\e['$dircolor'm\]\w\[\e[00m\]\n\[\e['$usercolor'm\]\u\[\e[00m\]@\[\e['$hostcolor'm\]\h\[\e[00m\]:\$ '
+

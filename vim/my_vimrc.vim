@@ -94,6 +94,7 @@ let g:EasyMotion_keys = 'asdplje'
 "set ssop-=options    " do not store global and local values in a session
 "set ssop-=folds      " do not store folds
 let g:virtualenv_directory = '~/programming/web/django'
+let NERDTreeQuitOnOpen = 1
 let g:NERDTreeWinPos = "left"
 let NERDTreeShowBookmarks=1
 map ,l :NERDTreeToggle<CR>
@@ -187,6 +188,10 @@ let g:yankring_share_between_instances = 1
 " have yankring manage Vim's numbered registers ("0-"9)
 let g:yankring_manage_numbered_reg = 1
 
+" let bexec_splitdir=[belowright]
+let bexec_rehighlight=1
+" let bexec_interpreter="/path/to/interpreter"
+
 " -------- shortcuts -------------
 cmap gcc !gcc % -g -Wall -o inVimCompiled
 " ..sudo
@@ -194,8 +199,8 @@ cmap W!! w !sudo tee > /dev/null %
 
 nnoremap <c-i> :let @i=expand("<cword>")<CR>:h <C-R>i<CR>
 nnoremap ,ffo : !firefox % &<cr><cr>
-" following 2 should be merged
-nnoremap ,te :let @p=expand("%:p:h")<cr>: !x-terminal-emulator -T --command="cd <C-R>p"
+
+nnoremap ,te :let @p=expand("%:p:h")<cr>: !x-terminal-emulator -T started_in_gvim --working-directory=<C-R>p &<cr>
 nnoremap ,cd :cd %:p:h<CR>:pwd<CR>
 map pyk :!idle-python3.2 -r % & <CR> <CR>
 " Delete line under your current position (Delete next-line).
@@ -220,6 +225,12 @@ cmap ,<Space> <C-R>/
 nnoremap ,<Space> /
 
 " -------- mappings -------------
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(LiveEasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(LiveEasyAlign)
+
 nnoremap ä `
 nnoremap ö '
 let mapleader = ","

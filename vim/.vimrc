@@ -6,8 +6,8 @@ let &runtimepath = printf('%s/vimfiles,%s,%s/vimfiles/after', $VIM, $VIMRUNTIME,
 " portable load config:
 let g:portable = expand('<sfile>:p:h')
 
-" silent execute '!ln -s ~/dotfiles/my_func.vim ' g:portable.'/plugin/my_func.vim'
-" silent execute '!ln -s ~/dotfiles/my_vimrc.vim ' g:portable.'/plugin/my_vimrc.vim'
+" silent execute '!ln -s ~/dotfiles/vim/my_func.vim ' g:portable.'/plugin/my_func.vim'
+" silent execute '!ln -s ~/dotfiles/vim/my_vimrc.vim ' g:portable.'/plugin/my_vimrc.vim'
 
 " let s:portableVundle= g:portable . '/bundle/Vundle.vim'
 let s:portableBundle= g:portable . '/bundle'
@@ -43,9 +43,10 @@ Plug 'mattn/emmet-vim'
 " IDE-ish
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'Shougo/neocomplete.vim'
-Plug 'scrooloose/syntastic'
+" Plug 'Shougo/neocomplete.vim'
+" Plug 'scrooloose/syntastic'
 " Plug 'lambdalisue/vim-pyenv'
+" Plug 'rkulla/pydiction'
 
 Plug 'ervandew/supertab'
 Plug 'wincent/command-t'
@@ -65,6 +66,7 @@ Plug 'fboender/bexec'
 Plug 'matze/vim-move'
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-fugitive'
+Plug 'justinmk/vim-sneak'
 
 " to test -==========
 Plug 'bronson/vim-visual-star-search'
@@ -104,7 +106,7 @@ Plug 'scrooloose/nerdtree'
 
 Plug 'scrooloose/nerdcommenter'
 " closes bracets
-Plug 'raimondi/delimitmate'
+" Plug 'raimondi/delimitmate'
 " following bugged!!!!!!!!!!!!!!!!!!!!!!
 " Plug 'kopischke/vim-stay'
 
@@ -134,17 +136,21 @@ Plug 'flazz/vim-colorschemes'
 
 call plug#end()            " required
 
+" savety first, had an issue, got solved by both loaders... might want to remove
+" pathogen at some point
 call pathogen#infect()
 call pathogen#helptags()
 
 function! Migrate_portable_vim()
     let s:portable_Plugin = g:portable . '/plugin'
     let s:p_configs = [ "my_vimrc.vim", "my_func.vim", "my_omni.vim"]
-    for f in s:p_configs
-      let qq = s:portable_Plugin.'/'.f
-        if filereadable( expand(qq)) == 0
-            echom "create symlink @: ".qq
-            execute '!ln -s ~/dotfiles/'.f.' '.qq
+    for ff in s:p_configs
+      let pf = s:portable_Plugin.'/'.ff
+        " if thelisted files are in your directory, dont load them
+        if filereadable( expand(pf)) == 0
+            let dot_f = '~/dotfiles/vim/'.ff
+            " execute '!ln -s ~/dotfiles/vim/'.ff.' '.pf
+            execute "source " . dot_f
         endif
     endfor
 endfunction
