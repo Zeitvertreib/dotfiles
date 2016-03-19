@@ -1,8 +1,8 @@
 # vim configs
 
-when cloned to /anywhere/you/want/
+**!!(currently only works when cloned into home ..  working on it)!!**
 
-!!(currently only works when cloned into home ..  working on it)!!
+when cloned to /anywhere/you/want/
 
 make a symlink from within your /path/to/portable/vim/ like so:
 

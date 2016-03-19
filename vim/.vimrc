@@ -1,3 +1,5 @@
+" the runtimepath settings are not from me, but i forgot/ cant find the source
+" so honor someone else !!!
 " set default 'runtimepath' (without ~/.vim folders)
 let &runtimepath = printf('%s/vimfiles,%s,%s/vimfiles/after', $VIM, $VIMRUNTIME, $VIM)
 " echo "portable ".expand('<sfile>')." used"
@@ -5,9 +7,6 @@ let &runtimepath = printf('%s/vimfiles,%s,%s/vimfiles/after', $VIM, $VIMRUNTIME,
 " what is the name of the directory containing this file?
 " portable load config:
 let g:portable = expand('<sfile>:p:h')
-
-" silent execute '!ln -s ~/dotfiles/vim/my_func.vim ' g:portable.'/plugin/my_func.vim'
-" silent execute '!ln -s ~/dotfiles/vim/my_vimrc.vim ' g:portable.'/plugin/my_vimrc.vim'
 
 " let s:portableVundle= g:portable . '/bundle/Vundle.vim'
 let s:portableBundle= g:portable . '/bundle'
