@@ -29,6 +29,8 @@ call plug#begin(s:portableBundle)
 " let Vundle manage Vundle, required
 " Plugin 'VundleVim/Vundle.vim'
 Plug 'tpope/vim-pathogen'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-repeat'
 
 Plug 'dahu/vimple'
 Plug 'vim-ctrlspace/vim-ctrlspace'
@@ -42,12 +44,14 @@ Plug 'mattn/emmet-vim'
 " IDE-ish
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-" Plug 'Shougo/neocomplete.vim'
+Plug 'Shougo/neocomplete.vim'
 " Plug 'scrooloose/syntastic'
 " Plug 'lambdalisue/vim-pyenv'
 " Plug 'rkulla/pydiction'
+Plug 'mhinz/vim-startify'
+Plug 'mhinz/vim-grepper'
 
-Plug 'ervandew/supertab'
+" Plug 'ervandew/supertab'
 Plug 'wincent/command-t'
 
 " ======================================

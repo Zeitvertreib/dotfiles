@@ -132,3 +132,33 @@ function AlignAssignments ()
 endfunction
 
 nmap <silent>  ;=  :call AlignAssignments()<CR>
+
+"from: https://github.com/vysakh0/dotfiles/blob/master/vim/plugin_config.vim
+"Vim dispatch, change compiler for language specific"
+"autocmd FileType ruby let b:dispatch = 'ruby %'
+autocmd FileType ruby let b:dispatch = 'ruby %'
+autocmd FileType python let b:dispatch = 'python %'
+autocmd FileType java let b:dispatch = 'javac %'
+autocmd FileType javascript let b:dispatch = 'node %'
+
+nnoremap <leader>dp :Dispatch<CR>
+" to see the output of the quick fix window
+nnoremap <leader>c :Copen<CR>
+"nnoremap <space>d :Dispatch bundle exec rspec %<CR>
+nnoremap <leader>br :Dispatch ruby %<CR>
+
+function! FileName()
+    let l:file_name = bufname("%")
+    let l:line_num  = line(".")
+    let l:total     = ( l:file_name.":".l:line_num )
+    :exe "Dispatch mix test ".total
+endfunction
+
+nnoremap <leader>mc :call FileName()<CR>
+nnoremap <leader>mf :Dispatch mix test %<CR>
+nnoremap <leader>mt :Dispatch mix test<CR>
+nnoremap <leader>meg :Dispatch mix ecto.gen.migration<space>
+
+nnoremap <leader>bc :Dispatch bundle check <CR>
+nnoremap <leader>bi :Dispatch bundle install<CR>
+nnoremap <leader>bl :Dispatch bundle install --local<CR>
