@@ -45,7 +45,7 @@ Plug 'mattn/emmet-vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/neocomplete.vim'
-" Plug 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic'
 " Plug 'lambdalisue/vim-pyenv'
 " Plug 'rkulla/pydiction'
 Plug 'mhinz/vim-startify'
@@ -78,6 +78,7 @@ Plug 'Konfekt/FastFold'
 " Plug 'chrisbra/changesPlugin'
 Plug 'jceb/vim-orgmode'
 
+" Plug 'vim-scripts/DirDiff'
 " Plug 'laurentgoudet/vim-howdoi'
 " needs howdoi
 " pip install howdoi
