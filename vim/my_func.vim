@@ -157,8 +157,7 @@ endfunction
 nnoremap <leader>mc :call FileName()<CR>
 nnoremap <leader>mf :Dispatch mix test %<CR>
 nnoremap <leader>mt :Dispatch mix test<CR>
-nnoremap <leader>meg :Dispatch mix ecto.gen.migration<space>
 
-nnoremap <leader>bc :Dispatch bundle check <CR>
-nnoremap <leader>bi :Dispatch bundle install<CR>
-nnoremap <leader>bl :Dispatch bundle install --local<CR>
+nnoremap <leader>dc :Dispatch bundle check <CR>
+nnoremap <leader>di :Dispatch bundle install<CR>
+nnoremap <leader>dl :Dispatch bundle install --local<CR>

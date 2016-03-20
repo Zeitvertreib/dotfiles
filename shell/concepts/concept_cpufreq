@@ -1,0 +1,31 @@
+# subroutine für cfrequtils
+
+gov=conservative
+freq=1600Mhz
+
+# verarbeitung
+
+while getopts gf: option
+do
+    case "$option"
+    in
+        g) echo "option für gouvenour erwartet"; read "$g"; echo "$g" gewaehlt
+        f) echo "option für gouvenour erwartet"; read "$f"; echo "$f" gewaehlt
+        \?) echo "Usage: bash_func [-g gouvenour] [-f frequenz in Mhz]"
+            exit 1;;
+    esac
+done
+
+# Stelle sicher, dass alle Argumente angegeben sind
+
+if [ "$OPTINT" -gt "$#" ]
+then
+    echo "too many options?"
+    exit 2
+fi
+
+shiftcount=`expr $OPTINT - 1`
+shift $shiftcount
+
+echo "gov=conservative to $g, freq=1600Mhz to $f"
+

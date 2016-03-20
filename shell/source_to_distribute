@@ -1,0 +1,23 @@
+# PATH to dir, where this File is located, fetch the others from here
+# source this file from within your .bashrc like:
+#
+# if [ -f ~/path/to/this/file ]; then
+    # . ~/path/to/this/file
+# fi
+#
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# for dotfiles // not really needed..
+shopt -s dotglob
+
+# list the to load files
+list=$(ls -a "$DIR"|grep .bash)
+
+for file in $list
+do
+    if [ -f $DIR/$file ]; then
+        # echo $file
+        . $DIR/$file
+    fi
+done
+

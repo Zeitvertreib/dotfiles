@@ -1,2 +1,0 @@
-alias soa="source bin/activate"
-alias soav="source ~/venv_horse/bin/activate"
