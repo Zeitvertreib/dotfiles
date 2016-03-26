@@ -18,7 +18,7 @@ set diffopt=vertical
 " set ttimeout ttimeoutlen=100
 set ch=2 " Make command line two lines high
 set number
-set relativenumber
+" set relativenumber
 set list
 set wildmenu
 set formatoptions-=t " Do not auto-wrap text using textwidth
@@ -44,7 +44,6 @@ set wildignore+=*.pyc
 " set statusline=\ %t\ %l\/%L
 set laststatus=2
 set modelines=0
-set undofile
 " CURSOR {{{
 "set cursorline
 set sidescroll=1
@@ -204,7 +203,8 @@ nnoremap ,te :let @p=expand("%:p:h")<cr>: !x-terminal-emulator -T started_in_gvi
 nnoremap ,cd :cd %:p:h<CR>:pwd<CR>
 map pyk :!idle-python3.2 -r % & <CR> <CR>
 " Delete line under your current position (Delete next-line).
-    nnoremap do myjdd`y
+nnoremap do myjdd`y
+nnoremap dO mykdd`y
 " Jump outside any parentheses or quotes, when your cursor is inside a closed region.
     " inoremap jj <Esc>/[)}"'\]>]<CR>:nohl<CR>a
 
@@ -214,9 +214,6 @@ map pyk :!idle-python3.2 -r % & <CR> <CR>
 " And make it lowercase.
     nnoremap gu <esc>mz<esc>guiw`z
     vnoremap gu <esc>mz<esc>gvgu`z
-" When open the line under you, stay in normal mode. I noticed I keep the normal modus most of the time.
-    nnoremap O O<Esc>
-    nnoremap o o<Esc>
 " Look for the same words.
     nnoremap <S-LeftMouse> <LeftMouse>:<C-U>let @/='\<'.expand("<cword>").'\>'<CR>:set hlsearch<CR>
 

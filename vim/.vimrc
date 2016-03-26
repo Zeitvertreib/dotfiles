@@ -1,6 +1,6 @@
 " the runtimepath settings are not from me, but i forgot/ cant find the source
 " so honor someone else !!!
-" set default 'runtimepath' (without ~/.vim folders)
+" set default 'runtimepath'
 let &runtimepath = printf('%s/vimfiles,%s,%s/vimfiles/after', $VIM, $VIMRUNTIME, $VIM)
 " echo "portable ".expand('<sfile>')." used"
 
@@ -15,7 +15,6 @@ let s:portableBundle= g:portable . '/bundle'
 let &runtimepath = printf('%s,%s,%s/after', g:portable, &runtimepath, g:portable)
 
 " start vim with: vim -u /path/to/portable/vim/.vimrc
-" in HOME/.vimrc :source /media/datenspeicher/data/global_conf/portable_vimrc/.vim/.vimrc
 " let mapleader=","
 
 set nocompatible | filetype off
@@ -48,7 +47,7 @@ Plug 'Shougo/neocomplete.vim'
 Plug 'scrooloose/syntastic'
 " Plug 'lambdalisue/vim-pyenv'
 " Plug 'rkulla/pydiction'
-Plug 'mhinz/vim-startify'
+" Plug 'mhinz/vim-startify'
 Plug 'mhinz/vim-grepper'
 
 " Plug 'ervandew/supertab'
@@ -78,7 +77,7 @@ Plug 'Konfekt/FastFold'
 " Plug 'chrisbra/changesPlugin'
 Plug 'jceb/vim-orgmode'
 
-" Plug 'vim-scripts/DirDiff'
+Plug 'vim-scripts/DirDiff'
 " Plug 'laurentgoudet/vim-howdoi'
 " needs howdoi
 " pip install howdoi
@@ -142,15 +141,14 @@ call plug#end()            " required
 
 " savety first, had an issue, got solved by both loaders... might want to remove
 " pathogen at some point
-call pathogen#infect()
-call pathogen#helptags()
+" call pathogen#infect()
+" call pathogen#helptags()
 
 function! Migrate_portable_vim()
     let s:portable_Plugin = g:portable . '/plugin'
     let s:p_configs = [ "my_vimrc.vim", "my_func.vim", "my_omni.vim"]
     for ff in s:p_configs
       let pf = s:portable_Plugin.'/'.ff
-        " if thelisted files are in your directory, dont load them
         if filereadable( expand(pf)) == 0
             let dot_f = '~/dotfiles/vim/'.ff
             " execute '!ln -s ~/dotfiles/vim/'.ff.' '.pf
@@ -208,27 +206,6 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-" =========================================================================
-" Python IDE Setup
-" =========================================================================
-
-" Settings for python-mode
-" cd ~/.vim/bundle
-" git clone https://github.com/klen/python-mode
-"" map <Leader>g :call RopeGotoDefinition()<CR>
-"" let ropevim_enable_shortcuts = 1
-"" let g:pymode_rope_goto_def_newwin = "vnew"
-"" let g:pymode_rope_extended_complete = 1
-"" let g:pymode_breakpoint = 0
-"" let g:pymode_syntax = 1
-"" let g:pymode_syntax_builtin_objs = 0
-"" let g:pymode_syntax_builtin_funcs = 0
-"" map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
-
-" Python folding
-" mkdir -p ~/.vim/ftplugin
-" wget -O ~/.vim/ftplugin/python_editing.vim http://www.vim.org/scripts/download_script.php?src_id=5492
-"
 if has("gui_running")
 " GUI is running or is about to start.
 " Maximize gvim window.
