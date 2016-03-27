@@ -5,13 +5,15 @@
     # . ~/path/to/this/file
 # fi
 #
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
+# DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# DIR="$( cd "$( dirname "${BASH_SOURCE}" )" && pwd )"
+DIR="$( cd "$( dirname "${BASH_SOURCE}" )/../" && pwd )"
+# rework this..
 # for dotfiles // not really needed..
 shopt -s dotglob
 
 # list the to load files
-list=$(ls -a "$DIR"|grep .bash)
+list=$(ls -a "$DIR/shell"|grep .bash)
 
 for file in $list
 do
@@ -21,3 +23,7 @@ do
     fi
 done
 
+# "plugins"
+if [ -f $DIR/conky/source_conky ]; then
+    . $DIR/conky/source_conky
+fi

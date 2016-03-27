@@ -1,3 +1,5 @@
+# ignore "plugins"
+conky/
 # Compiled source #
 ###################
 *.com
