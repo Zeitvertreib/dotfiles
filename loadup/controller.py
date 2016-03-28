@@ -8,7 +8,7 @@ def find_current_DS(my_dict, now):
     timestate = "pause"
     for key in my_dict.keys():
         if my_dict[key][0] <= now:
-            #  timestate = "pause"+str(key)
+            timestate = "pause"+str(key)
             #  print("works for key:", key)
             #  print(my_dict[key][1])
             if now <= my_dict[key][1]:
