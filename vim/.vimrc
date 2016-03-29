@@ -30,20 +30,34 @@ call plug#begin(s:portableBundle)
 Plug 'tpope/vim-pathogen'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-fugitive'
 
 Plug 'dahu/vimple'
 Plug 'vim-ctrlspace/vim-ctrlspace'
 " Plug 'virtual env'
 Plug 'chrisbra/NrrwRgn'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline'
+Plug 'itchyny/lightline-powerful'
+Plug 'itchyny/cursorword'
+Plug 'osyo-manga/vim-stripe'
+Plug 'osyo-manga/vim-over'
+Plug 'osyo-manga/vim-hopping'
+Plug 'tyru/open-browser'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
-
+" Plug 'lervag/vimtex'
+Plug 'LaTeX-Box-Team/LaTeX-Box'
 " IDE-ish
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'Shougo/neocomplete.vim'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
+Plug 'Shougo/neocomplete'
+Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'Shougo/Unite'
+Plug 'Shougo/neco-vim'
+
 Plug 'scrooloose/syntastic'
 " Plug 'lambdalisue/vim-pyenv'
 " Plug 'rkulla/pydiction'
@@ -67,7 +81,6 @@ Plug 'fboender/bexec'
 
 Plug 'matze/vim-move'
 Plug 'easymotion/vim-easymotion'
-Plug 'tpope/vim-fugitive'
 Plug 'justinmk/vim-sneak'
 
 " to test -==========
@@ -77,7 +90,7 @@ Plug 'Konfekt/FastFold'
 " Plug 'chrisbra/changesPlugin'
 Plug 'jceb/vim-orgmode'
 
-Plug 'vim-scripts/DirDiff'
+Plug 'will133/vim-dirdiff'
 " Plug 'laurentgoudet/vim-howdoi'
 " needs howdoi
 " pip install howdoi
@@ -99,9 +112,9 @@ Plug 'junegunn/vim-oblique'
 
 " Plug 'mechatroner/rainbow_csv'
 " https://github.com/Yggdroot/indentLine
-Plug 'ap/vim-css-color'
+" Plug 'ap/vim-css-color'
 " alternative try:
-" Plug 'lilydjwg/colorizer'
+Plug 'lilydjwg/colorizer'
 Plug 'luochen1990/rainbow'
 
 Plug 'scrooloose/nerdtree'
@@ -125,9 +138,14 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'jelera/vim-javascript-syntax'
 
 " colorshemes:
+Plug 'w0ng/vim-hybrid'
 Plug 'JarrodCTaylor/vim-256-color-schemes'
 Plug 'ewilazarus/preto'
 Plug 'pgdouyon/vim-yin-yang'
+Plug 'baskerville/bubblegum'
+Plug 'noahfrederick/vim-hemisu'
+Plug 'jonathanfilip/vim-lucius'
+Plug 'morhetz/gruvbox'
 
 Plug 'whatyouhide/vim-gotham'
 Plug 'atelierbram/vim-colors_duotones'
@@ -146,7 +164,7 @@ call plug#end()            " required
 
 function! Migrate_portable_vim()
     let s:portable_Plugin = g:portable . '/plugin'
-    let s:p_configs = [ "my_vimrc.vim", "my_func.vim", "my_omni.vim"]
+    let s:p_configs = [ "my_vimrc.vim", "my_func.vim", "my_omni.vim", "my_airline.vim"]
     for ff in s:p_configs
       let pf = s:portable_Plugin.'/'.ff
         if filereadable( expand(pf)) == 0

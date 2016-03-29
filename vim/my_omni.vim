@@ -1,19 +1,7 @@
 " set ofu=syntaxcomplete#Complete
-" set completeopt=menuone,preview
-"
+
 set completeopt+=menuone
-" function! OmniPopup(action)
-    " if pumvisible()
-        " if a:action == 'j'
-            " return "\<C-N>"
-            " elseif a:action == 'k'
-            " return "\<C-P>"
-        " endif
-    " endif
-" return a:action
-" endfunction
-" to experiment w the settings w/o getting confused
-"i_<C-l> v_<C-l> xpt-key-trigger g:xptemplate_key
+let g:neosnippet#snippets_directory=g:portable.'/snippets'
 let g:neosnippet#enable_preview=1
 imap <expr><C-l>
 \ neosnippet#expandable_or_jumpable() ?
@@ -37,24 +25,14 @@ let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
 let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+" let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 let g:neocomplete#enable_auto_select = 1
 " Define dictionary.
-" let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
 
-" Define keyword.
 if !exists('g:neocomplete#keyword_patterns')
     let g:neocomplete#keyword_patterns = {}
 endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" let g:neocomplete#force_omni_input_patterns.python =
-" \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-" alternative pattern: '\h\w*\|[^. \t]\.\w*'
 
 " Plugin key-mappings.
 inoremap <expr><C-g>     neocomplete#undo_completion()
@@ -62,18 +40,17 @@ inoremap <expr><C-l>     neocomplete#complete_common_string()
 
  " Recommended key-mappings.
  " <CR>: close popup and save indent.
- inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
- function! s:my_cr_function()
-     return neocomplete#close_popup() . "\<CR>"
- endfunction
+ " inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+ " function! s:my_cr_function()
+     " return neocomplete#close_popup() . "\<CR>"
+ " endfunction
  " <TAB>: completion.
- inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
- " <C-h>, <BS>: close popup and delete backword char.
- inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
- inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
- inoremap <expr><C-y>  neocomplete#close_popup()
- inoremap <expr><C-e>  neocomplete#cancel_popup()
-
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><c-j>  pumvisible() ? "\<C-n>" : "\<c-j>"
+inoremap <expr><c-k>  pumvisible() ? "\<C-p>" : "\<c-k>"
+" inoremap <expr><space>  pumvisible() ? neocomplete#cancel_popup() : "\<space>"
+inoremap <expr><CR> neocomplete#close_popup()
+"
 " add those:
 " :NeoCompleteDisable
 " NeoCompleteToggle
@@ -86,7 +63,6 @@ inoremap <expr><C-l>     neocomplete#complete_common_string()
 let g:neocomplete#enable_auto_select = 1
 " let g:neocomplete-source-attribute-min_pattern_length = 3
 "let g:neocomplete#disable_auto_complete = 1
-"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS

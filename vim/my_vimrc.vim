@@ -56,7 +56,7 @@ set linebreak " wrap at word breaks
 " set showbreak=… " show an ellipsis at the start of wrapped lines
 " let &flp='\w\+> '
 set cpoptions+=n
-highlight NonText ctermfg=None     " Theme your indent symbols
+highlight NonText ctermfg=None     |" Theme your indent symbols
 set tw=80
 " }}}
 set lazyredraw
@@ -78,11 +78,6 @@ endif
 " set viminfo=%,'9999,s512,nexpand('g:portable')
 
 " -------------  plugins -------------
-let g:airline_right_sep=''
-let g:airline_left_sep=''
-let g:airline_theme='pencil'
-let g:airline_exclude_preview = 1
-
 let g:yankring_persist = 0
 let g:rainbow_active = 1
 let g:move_key_modifier = 'C'
@@ -92,7 +87,6 @@ let g:EasyMotion_keys = 'asdplje'
 " forget about mappings in mks
 "set ssop-=options    " do not store global and local values in a session
 "set ssop-=folds      " do not store folds
-let g:virtualenv_directory = '~/programming/web/django'
 let NERDTreeQuitOnOpen = 1
 let g:NERDTreeWinPos = "left"
 let NERDTreeShowBookmarks=1
@@ -196,7 +190,7 @@ cmap gcc !gcc % -g -Wall -o inVimCompiled
 " ..sudo
 cmap W!! w !sudo tee > /dev/null %
 
-nnoremap <c-i> :let @i=expand("<cword>")<CR>:h <C-R>i<CR>
+nnoremap <c-h> :let @i=expand("<cword>")<CR>:h <C-R>i<CR>
 nnoremap ,ffo : !firefox % &<cr><cr>
 
 nnoremap ,te :let @p=expand("%:p:h")<cr>: !x-terminal-emulator -T started_in_gvim --working-directory=<C-R>p &<cr>
@@ -368,9 +362,10 @@ highlight! link messagesError NONE
 "endw
 
 " ............. coloring
-set background=dark
-" colorscheme gotham256
-colorscheme knuckleduster
+" set background=dark
+colorscheme gotham256
+" colorscheme hybrid
+" colorscheme knuckleduster
 " colorscheme pencil
 " colorscheme vj
 " color darkspectrum
