@@ -5,6 +5,7 @@ now = d.datetime.now().strftime("%H:%M")
 ds_dict = stunden.doppelstunden
 
 def find_current_DS(my_dict, now):
+    now = str(now)
     timestate = "pause"
     for key in my_dict.keys():
         if my_dict[key][0] <= now:

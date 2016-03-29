@@ -1,5 +1,4 @@
 #! sh
-#!/bin/bash
 # echo "The script you are running has basename `basename $0`, dirname `dirname $0`"
 # echo "The script you are running has basename `basename "${BASH_SOURCE[0]}"`"
 # echo "The script you are running has basename `dirname "${BASH_SOURCE[1]}"`"
@@ -9,11 +8,15 @@ raw_conkyf=$Conky_loadup/conkyrc_raw
 finished_conkyf=$Conky_loadup/conkyrc_generated
 # substitution to have it "portable"/ relative pathnames
 # remove conkyrc_generated when moving the containing dir
-insert_line='template6 "${execpi 60 python3 '$Conky_loadup'/controller.py}"'
+insert_line1='template1 "${execpi 60 python3 '$Conky_loadup'/controller.py}"'
+insert_line6='template6 '$HOME
+insert_line7='template7 '$HOME/xtern
 
 if [ -f $raw_conkyf ] && [ ! -f $finished_conkyf ]; then
     echo fi for conky working
-    sed "s%replace_this%$insert_line%g" < $raw_conkyf > $finished_conkyf
-    conky -c $Conky_loadup/conkyrc_generated -d -q
+    sed "s%replace_this1%$insert_line1%g" < $raw_conkyf | \
+    sed "s%replace_this6%$insert_line6%g"               | \
+    sed "s%replace_this7%$insert_line7%g"                 > $finished_conkyf
+    conky -c $finished_conkyf -d -q
 fi
 
