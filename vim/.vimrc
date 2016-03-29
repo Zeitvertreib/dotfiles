@@ -43,6 +43,7 @@ Plug 'osyo-manga/vim-stripe'
 Plug 'osyo-manga/vim-over'
 Plug 'osyo-manga/vim-hopping'
 Plug 'tyru/open-browser'
+
 " Plug 'vim-airline/vim-airline'
 " Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-surround'
