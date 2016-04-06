@@ -36,16 +36,17 @@ Plug 'dahu/vimple'
 Plug 'vim-ctrlspace/vim-ctrlspace'
 " Plug 'virtual env'
 Plug 'chrisbra/NrrwRgn'
-Plug 'itchyny/lightline'
-Plug 'itchyny/lightline-powerful'
+" Plug 'itchyny/lightline'
+" Plug 'itchyny/lightline-powerful'
 Plug 'itchyny/cursorword'
 Plug 'osyo-manga/vim-stripe'
 Plug 'osyo-manga/vim-over'
 Plug 'osyo-manga/vim-hopping'
 Plug 'tyru/open-browser'
 
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline' 
+"|" , { 'do': g:airline_theme=\'hybrid\' }
+Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
 " Plug 'lervag/vimtex'
@@ -230,6 +231,4 @@ if has("gui_running")
 " Maximize gvim window.
   set lines=55 columns=160
 endif
-
-
 " not vim related https://github.com/jaraco/irc

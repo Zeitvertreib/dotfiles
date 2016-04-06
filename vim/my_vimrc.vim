@@ -216,6 +216,7 @@ cmap ,<Space> <C-R>/
 nnoremap ,<Space> /
 
 " -------- mappings -------------
+nnoremap ,0 :AirlineTheme cool<CR>
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(LiveEasyAlign)
 

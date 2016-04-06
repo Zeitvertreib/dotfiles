@@ -8,18 +8,20 @@
 # DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # DIR="$( cd "$( dirname "${BASH_SOURCE}" )" && pwd )"
 DIR="$( cd "$( dirname "${BASH_SOURCE}" )/../" && pwd )"
+DIRsd=$DIR/shell
 # rework this..
 # for dotfiles // not really needed..
 shopt -s dotglob
 
 # list the to load files
-list=$(ls -a "$DIR/shell"|grep .bash)
+list=$(ls -a "$DIRsd"|grep .bash)
 
 for file in $list
 do
-    if [ -f $DIR/$file ]; then
+    if [ -f $DIRsd/$file ]; then
+        # echo $DIRsd/$file
         # echo $file
-        . $DIR/$file
+        . $DIRsd/$file
     fi
 done
 

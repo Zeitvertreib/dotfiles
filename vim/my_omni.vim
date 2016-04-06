@@ -49,7 +49,7 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><c-j>  pumvisible() ? "\<C-n>" : "\<c-j>"
 inoremap <expr><c-k>  pumvisible() ? "\<C-p>" : "\<c-k>"
 " inoremap <expr><space>  pumvisible() ? neocomplete#cancel_popup() : "\<space>"
-inoremap <expr><CR> neocomplete#close_popup()
+inoremap <expr><cr>  pumvisible() ? neocomplete#close_popup() : "<cr>"
 "
 " add those:
 " :NeoCompleteDisable
