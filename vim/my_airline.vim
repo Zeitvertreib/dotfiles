@@ -1,10 +1,9 @@
 " let g:colorizer_maxlines=1000
-" let g:airline_right_sep=''
-" let g:airline_left_sep=''
-" let g:airline_theme=''
-" let g:airline_exclude_preview = 1
-" let g:airline_theme='pencil'
-" let g:airline_theme='hybrid'
+let g:airline_right_sep=''
+let g:airline_left_sep=''
+let g:airline_theme=''
+let g:airline_exclude_preview = 1
+let g:airline_theme='cool'
 " function! My_Airline()
     " :AirlineTheme cool<CR>
     " echo "myairline"

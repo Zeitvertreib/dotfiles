@@ -78,6 +78,7 @@ endif
 " set viminfo=%,'9999,s512,nexpand('g:portable')
 
 " -------------  plugins -------------
+let g:colorizer_maxlines=1000
 let g:yankring_persist = 0
 let g:rainbow_active = 1
 let g:move_key_modifier = 'C'
@@ -329,6 +330,10 @@ nnoremap <Leader>s :source %
 nnoremap <silent> <Leader>f :let @+=expand("%:p")<cr>:echo "Copied current file
       \ path '".expand("%:p")."' to clipboard"<cr>
  " nnoremap <A-n> :hi StatusLineNC GUIBg=#141414 guifg=#9a7824 gui=underline<CR>:hi StatusLine guifg=#9a7824 guibg=#141414 gui=underline<CR>:split<CR>
+
+:nnoremap <leader>g :execute "grep! -R " . shellescape(expand("<cWORD>")) . " " getcwd() "<cr>:copen<cr>
+
+
 " ----- workarounds/functions -----
 " set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
