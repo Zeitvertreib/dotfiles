@@ -62,6 +62,7 @@ set tw=80
 set lazyredraw
 " set showbreak=>\ _
 " delicious, enable showbreak when breakindent not working
+set synmaxcol=120
 set breakindent
 set sb spr | "split below and right
 " Always substitute all letters, not just substitute first hit on line
