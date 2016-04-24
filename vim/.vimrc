@@ -40,8 +40,8 @@ Plug 'chrisbra/NrrwRgn'
 " Plug 'itchyny/lightline-powerful'
 Plug 'itchyny/vim-cursorword'
 " Plug 'osyo-manga/vim-stripe'
-" Plug 'osyo-manga/vim-over'
-" Plug 'osyo-manga/vim-hopping'
+Plug 'osyo-manga/vim-over'
+Plug 'osyo-manga/vim-hopping'
 Plug 'tyru/open-browser.vim'
 
 Plug 'vim-airline/vim-airline'
@@ -78,7 +78,6 @@ Plug 'fboender/bexec'
 " Plug 'LucHermitte/lh-tags'
 " Plug 'LucHermitte/lh-dev'
 " Plug 'LucHermitte/lh-brackets'
-
 
 Plug 'matze/vim-move'
 Plug 'easymotion/vim-easymotion'
@@ -157,7 +156,7 @@ Plug 'reedes/vim-colors-pencil'
 Plug 'flazz/vim-colorschemes'
 
 
-call plug#end()            " required
+call plug#end()           | " required
 
 " savety first, had an issue, got solved by both loaders... might want to remove
 " pathogen at some point
