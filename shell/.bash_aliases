@@ -82,6 +82,13 @@ sudo cpufreq-set -u "$cpuspeed"Mhz; sudo cpufreq-set -c1 -u "$cpuspeed"Mhz;
 sudo cpufreq-set -g conservative; sudo cpufreq-set -c1 -g conservative;
 cpufreq-info | grep mom; }
 function fanmanipulation { echo level "$1" | sudo tee /proc/acpi/ibm/fan; }
+
+# git
+alias ga='git add $1'
+alias gs='git status'
+alias gp='git push'
+alias gc='git commit -m \"$1\"'
+alias gr='git remote $1'
 # To see something coming into ls output: lss
 alias lss='ls -lrt | grep $1'
 
