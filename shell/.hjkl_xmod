@@ -1,4 +1,7 @@
 /* https://shellhell.wordpress.com/2012/01/31/hello-world/ */
+/* apply with: xmodmap .hjkl_xmod */
+/* reset in case of error, invoke: setxkbmap */
+
 ! remove Caps Lock
 clear lock
 remove Lock = Caps_Lock
