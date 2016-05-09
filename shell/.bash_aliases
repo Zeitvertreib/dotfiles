@@ -40,9 +40,6 @@ if [ -n "$DISPLAY" ]; then
   xset b off
 fi
 
-alias soa="source bin/activate"
-alias soav="source ~/venv_horse/bin/activate"
-
 alias con1='conky -q -c $DIR/../conky/.conky_calender; conky -q -c $DIR/../conky/.conkyrc'
 alias con2='cd $DIR/../conky/; conky -q -c .conky_calender; conky -q -c .conkyrc'
 
@@ -85,10 +82,12 @@ function fanmanipulation { echo level "$1" | sudo tee /proc/acpi/ibm/fan; }
 
 # git
 alias ga='git add $1'
+alias gc='git commit -m $1'
 alias gas='git add . |gc'
+alias gasa='git add . |git commit --amend -m $1'
+alias glog='git log --pretty=format:"%h %ad | %s%d [%an]" --graph --max-count=8'
 alias gs='git status'
 alias gp='git push'
-alias gc='git commit -m $1'
 alias gr='git remote $1'
 #
 # To see something coming into ls output: lss
@@ -122,4 +121,5 @@ alias pmrp="python3 manage.py runserver_plus"
 alias pmsp="python3 manage.py shell_plus"
 alias dgo='source bin/activate; pip freeze'
 alias django='cd $(echo $home_dir/programming/web/)'
-
+alias soa="source bin/activate"
+alias soav="source ~/venv_horse/bin/activate"

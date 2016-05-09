@@ -1,16 +1,19 @@
-/* https://shellhell.wordpress.com/2012/01/31/hello-world/ */
-/* apply with: xmodmap .hjkl_xmod */
-/* reset in case of error, invoke: setxkbmap */
+! https://shellhell.wordpress.com/2012/01/31/hello-world/
+! apply with: xmodmap .hjkl_xmod
+! reset in case of error, invoke: setxkbmap
 
 ! remove Caps Lock
 clear lock
-remove Lock = Caps_Lock
-remove Shift = Caps_Lock
+! remove Lock = Caps_Lock
+! remove Shift = Caps_Lock
 ! add Mode_switch
 keycode 66 = NoSymbol NoSymbol
-keycode 66 = Mode_switch
+keycode 66 = ISO_Level3_Shift
+! keycode 66 = Mode_switchISO_Level3_Shift
 
-keysym h = h H Left NoSymbol NoSymbol NoSymbol
-keysym j = j J Down NoSymbol NoSymbol NoSymbol
-keysym k = k K Up NoSymbol NoSymbol NoSymbol
-keysym l = l L Right NoSymbol lstroke Lstroke
+keysym o = o O NoSymbol NoSymbol BackSpace NoSymbol
+keysym i = i I NoSymbol NoSymbol Delete NoSymbol
+keysym h = h H Left NoSymbol Left NoSymbol
+keysym j = j J Down NoSymbol Down NoSymbol
+keysym k = k K Up NoSymbol Up NoSymbol
+keysym l = l L Right NoSymbol Right Lstroke
