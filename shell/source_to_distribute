@@ -26,6 +26,10 @@ do
 done
 
 # "plugins"
-if [ -f $DIR/conky/source_conky ]; then
-    . $DIR/conky/source_conky
+if [ -f $DIR/openbox/distribute ]; then
+    . $DIR/openbox/distribute
+fi
+
+if [ -f $DIR/conky/distribute ]; then
+    . $DIR/conky/distribute
 fi

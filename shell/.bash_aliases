@@ -123,3 +123,15 @@ alias dgo='source bin/activate; pip freeze'
 alias django='cd $(echo $home_dir/programming/web/)'
 alias soa="source bin/activate"
 alias soav="source ~/venv_horse/bin/activate"
+
+function toggle_touchpad {
+    if [ ! $TP_TOGGLE ]; then
+        echo on
+        TP_TOGGLE=1
+        synclient TouchpadOff=1
+    else
+        echo off
+        unset TP_TOGGLE
+        synclient TouchpadOff=0
+    fi
+}
