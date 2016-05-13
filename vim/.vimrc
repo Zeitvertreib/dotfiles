@@ -32,6 +32,9 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 
+Plug 'mtth/scratch.vim'
+Plug 'sk1418/QFGrep'
+
 Plug 'dahu/vimple'
 Plug 'vim-ctrlspace/vim-ctrlspace'
 " Plug 'virtual env'
@@ -67,7 +70,6 @@ Plug 'mhinz/vim-grepper'
 
 " Plug 'ervandew/supertab'
 Plug 'wincent/command-t'
-
 " ======================================
 " Plug 'carlhuda/janus'
 " Plug 'xolox/vim-easytags'
