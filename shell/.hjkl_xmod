@@ -13,7 +13,7 @@ keycode 66 = ISO_Level3_Shift
 
 keysym o = o O NoSymbol NoSymbol BackSpace NoSymbol
 keysym i = i I NoSymbol NoSymbol Delete NoSymbol
-keysym h = h H Left NoSymbol Left NoSymbol
-keysym j = j J Down NoSymbol Down NoSymbol
-keysym k = k K Up NoSymbol Up NoSymbol
-keysym l = l L Right NoSymbol Right Lstroke
+keysym h = h H Left Left Left Left
+keysym j = j J NoSymbol NoSymbol Down Down
+keysym k = k K NoSymbol NoSymbol Up Up
+keysym l = l L NoSymbol NoSymbol Right Right

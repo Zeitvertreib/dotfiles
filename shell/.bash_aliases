@@ -61,6 +61,11 @@ alias la='ls -a | grep ^.*'
 alias ldir='ls -lhA |grep ^d'
 alias lfiles='ls -lhA |grep ^-'
 #alias l='ls -CF'
+# To see something coming into ls output: lss
+alias lss='ls -lrt | grep $1'
+
+# To check a process is running in a box with a heavy load: pss
+alias pss='ps -ef | grep $1'
 
 # cpufreq aliases
 alias ci='cpufreq-info'
@@ -90,12 +95,30 @@ alias gs='git status'
 alias gp='git push'
 alias gr='git remote $1'
 #
-# To see something coming into ls output: lss
-alias lss='ls -lrt | grep $1'
-
-# To check a process is running in a box with a heavy load: pss
-alias pss='ps -ef | grep $1'
-
+function grename() {
+    if [ -z "$1" ]
+    then
+        echo "renaming current_branch failed"
+        echo "No argument supplied"
+        kill -INT $$
+    fi
+    current_branch=$(git name-rev --name-only HEAD)
+    echo "rename :${current_branch}: into :${1}: ?"
+    read -n1 -p "Do that? [y,n]" doit
+    case $doit in
+        y|Y)
+            echo "rename: git branch -m $1"
+            git branch -m $1
+            echo "set $1 (new branch) on remote"
+            git push --set-upstream origin $1
+            echo "delete $current_branch (old branch name) on remote"
+            git push origin :$current_branch
+            git branch
+            ;;
+        n|N) echo no ;;
+        *) echo dont know ;;
+    esac 
+}
 # base dir nav
 alias programming='cd $home_dir/programming; ls'
 alias documents='cd $home_dir/documents'
