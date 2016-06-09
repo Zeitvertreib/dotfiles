@@ -6,35 +6,6 @@
 # outdated: export WORKON_HOME="$HOME/Envs"
 # source $HOME/bin/virtualenvwrapper_bashrc
 
-extract() {
-    if [ -f "$1" ] ; then
-        case "$1" in
-            *.tar.bz2) tar xjf "$1" ;;
-            *.tar.gz) tar xzf "$1" ;;
-            *.tar.Z) tar xzf "$1" ;;
-            *.bz2) bunzip2 "$1" ;;
-            *.rar) unrar x "$1" ;;
-            *.gz) gunzip "$1" ;;
-            *.jar) unzip "$1" ;;
-            *.tar) tar xf "$1" ;;
-            *.tbz2) tar xjf "$1" ;;
-            *.tgz) tar xzf "$1" ;;
-            *.zip) unzip "$1" ;;
-            *.Z) uncompress "$1" ;;
-            *) echo "'$1' cannot be extracted." ;;
-        esac
-    else
-        echo "'$1' is not a file."
-    fi
-}
-
-mktar() { tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
-mktgz() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
-mktbz() { tar cvjf "${1%%/}.tar.bz2" "${1%%/}/"; }
-mktxz() { tar cvJf "${1%%/}.tar.xz" "${1%%/}/"; }
-# Make a directory and then CD into it.
-mkcd() { mkdir -p "$*"; cd "$*"; }
-
 # beeps off
 if [ -n "$DISPLAY" ]; then
   xset b off
@@ -42,6 +13,8 @@ fi
 
 alias con1='conky -q -c $DIR/../conky/.conky_calender; conky -q -c $DIR/../conky/.conkyrc'
 alias con2='cd $DIR/../conky/; conky -q -c .conky_calender; conky -q -c .conkyrc'
+alias scdual='~/.screenlayout/dualhead.sh'
+alias scmono='~/.screenlayout/mono.sh'
 
 # variables
 user=$(whoami)
@@ -107,11 +80,11 @@ function grename() {
     read -n1 -p "Do that? [y,n]" doit
     case $doit in
         y|Y)
-            echo "rename: git branch -m $1"
+            echo "rename: git branch -m $1 ___"
             git branch -m $1
-            echo "set $1 (new branch) on remote"
+            echo "set $1 (new branch) on remote ___"
             git push --set-upstream origin $1
-            echo "delete $current_branch (old branch name) on remote"
+            echo "delete $current_branch (old branch name) on remote ___"
             git push origin :$current_branch
             git branch
             ;;
@@ -158,3 +131,32 @@ function toggle_touchpad {
         synclient TouchpadOff=0
     fi
 }
+
+extract() {
+    if [ -f "$1" ] ; then
+        case "$1" in
+            *.tar.bz2) tar xjf "$1" ;;
+            *.tar.gz) tar xzf "$1" ;;
+            *.tar.Z) tar xzf "$1" ;;
+            *.bz2) bunzip2 "$1" ;;
+            *.rar) unrar x "$1" ;;
+            *.gz) gunzip "$1" ;;
+            *.jar) unzip "$1" ;;
+            *.tar) tar xf "$1" ;;
+            *.tbz2) tar xjf "$1" ;;
+            *.tgz) tar xzf "$1" ;;
+            *.zip) unzip "$1" ;;
+            *.Z) uncompress "$1" ;;
+            *) echo "'$1' cannot be extracted." ;;
+        esac
+    else
+        echo "'$1' is not a file."
+    fi
+}
+
+mktar() { tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
+mktgz() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
+mktbz() { tar cvjf "${1%%/}.tar.bz2" "${1%%/}/"; }
+mktxz() { tar cvJf "${1%%/}.tar.xz" "${1%%/}/"; }
+# Make a directory and then CD into it.
+mkcd() { mkdir -p "$*"; cd "$*"; }

@@ -31,6 +31,7 @@ Plug 'tpope/vim-pathogen'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-unimpaired'
 
 Plug 'mtth/scratch.vim'
 Plug 'sk1418/QFGrep'
