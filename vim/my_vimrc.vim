@@ -96,6 +96,24 @@ map ,l :NERDTreeToggle<CR>
 map ,k :NERDTreeFind<CR>
 let NERDTreeIgnore = ['\.pyc$', '^__pycache__$']
 let NERDTreeChDirMode = 0
+" Startify
+let g:startify_use_env = 1
+let g:startify_custom_indices = ['a','f', 'g', 'h']
+let g:startify_session_sort = 1
+let g:startify_skiplist = ['.vimrc']
+
+let g:ascii = [
+        \ '               ',
+        \ '     .     .|  |.        .',
+        \ '     |  |  ||  ||        |',
+        \ '      \___/ |__||__|__|__|',
+        \ '     '
+        \]
+let g:startify_custom_header = g:ascii
+   " startify#fortune#quote()    raw random quote
+    " startify#fortune#boxed()    formatted random quote in a box
+    " startify#fortune#cowsay()   formatted random quote in a box + cow
+
 " CtrlSpace
 function! CtrlSpace_coloring()
     if has("gui_running")
@@ -132,8 +150,8 @@ endfunction
 call CtrlSpace_coloring()
 
 let g:ctrlspace_use_horizontal_splits=1
-let g:ctrlspace_save_workspace_on_exit=1
-let g:ctrlspace_load_last_workspace_on_start=1
+let g:CtrlSpaceSaveWorkspaceOnExit=1
+let g:CtrlSpaceLoadLastWorkspaceOnStart=1
 
 " surround.vim
 let b:surround_{char2nr("v")} = "{{ \r }}"
@@ -240,7 +258,7 @@ vnoremap <Leader>a, :Tabularize /,/l0r1<CR>
 vnoremap < <gv
 vnoremap > >gv
 " Toggle and untoggle spell checking
-"noremap <leader>ss :setlocal spell! spelllang=de
+noremap <leader>ss :setlocal spell! spelllang=de<CR>
 
 " switch to last buffer
 nnoremap <leader>d <c-^>
@@ -290,8 +308,10 @@ nnoremap k gk
 " inoremap <Leader>% %%<Esc>i
 " inoremap <Leader>' ''<Esc>i
 " easier moving between tabs/buffer
-nnoremap ,q <esc>:tabprevious<CR>
-nnoremap ,w <esc>:tabnext<CR>
+nnoremap sa <esc>:tabprevious<CR>
+nnoremap se <esc>:tabnext<CR>
+" nnoremap ,q <esc>:tabprevious<CR>
+" nnoremap ,w <esc>:tabnext<CR>
 nnoremap <silent> <F9> :MaximizerToggle<CR>
 " Folds
 " nnoremap <silent> <Space> @=(foldlevel('.')?'za':'l')<CR>

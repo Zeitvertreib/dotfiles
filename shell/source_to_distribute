@@ -31,5 +31,6 @@ if [ -f $DIR/openbox/distribute ]; then
 fi
 
 if [ -f $DIR/conky/distribute ]; then
+    echo found
     . $DIR/conky/distribute
 fi

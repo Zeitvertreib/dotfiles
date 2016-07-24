@@ -66,8 +66,8 @@ Plug 'Shougo/neco-vim'
 " Plug 'scrooloose/syntastic'
 " Plug 'lambdalisue/vim-pyenv'
 " Plug 'rkulla/pydiction'
-" Plug 'mhinz/vim-startify'
-Plug 'mhinz/vim-grepper'
+Plug 'mhinz/vim-startify'
+" Plug 'mhinz/vim-grepper'
 
 " Plug 'ervandew/supertab'
 Plug 'wincent/command-t'
@@ -108,6 +108,9 @@ Plug 'Yggdroot/indentLine'
 " Plug 'nathanaelkane/vim-indent-guides'
 " highten up around cursor, nice
 Plug 'junegunn/limelight.vim'
+Plug 'junegunn/goyo.vim'
+" easy marks, disable on small screens
+Plug 'kshenoy/vim-signature'
 " automated disable hl, not sure, if needed
 " Plug 'pgdouyon/vim-evanesco'
 " Plug 'junegunn/vim-pseudocl'
@@ -194,7 +197,7 @@ set hidden
 " IMPORTANT: grep will sometimes skip displaying the file name if you
 " search in a singe file. This will confuse Latex-Suite. Set your grep
 " program to always generate a file-name.
-"set grepprg=grep\ -nH\ $*
+set grepprg=grep\ -nH\ $*
 
 " OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
 " 'plaintex' instead of 'tex', which results in vim-latex not being loaded.

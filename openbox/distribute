@@ -1,10 +1,10 @@
-DIR="$( cd "$( dirname "${BASH_SOURCE}" )" && pwd )"
 RC="$HOME/.config/openbox/rc.xml"
 now=$(date +"%m_%d_%Y")
 
 if [ -f $RC ] && [ ! -L $RC ]; then
     mv $RC ${RC}_$now
-    ln -s $DIR/rc.xml $RC
+    ln -s $DIR/openbox/rc.xml $RC
+    echo "openbox: settings overwritten"
 fi
 
 function openbox_revert {

@@ -256,7 +256,7 @@
     </keybind>
 
     <!-- Keybindings for windows -->
-    <keybind key="A-F4">
+    <keybind key="A-x">
       <action name="Close"/>
     </keybind>
     <keybind key="A-F5">

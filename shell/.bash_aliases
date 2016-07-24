@@ -15,6 +15,7 @@ alias con1='conky -q -c $DIR/../conky/.conky_calender; conky -q -c $DIR/../conky
 alias con2='cd $DIR/../conky/; conky -q -c .conky_calender; conky -q -c .conkyrc'
 alias scdual='~/.screenlayout/dualhead.sh'
 alias scmono='~/.screenlayout/mono.sh'
+alias hjkl='xmodmap $DIR/shell/.hjkl_xmod'
 
 # variables
 user=$(whoami)
@@ -122,11 +123,11 @@ alias soav="source ~/venv_horse/bin/activate"
 
 function toggle_touchpad {
     if [ ! $TP_TOGGLE ]; then
-        echo on
+        echo TouchpadOff=1
         TP_TOGGLE=1
         synclient TouchpadOff=1
     else
-        echo off
+        echo TouchpadOff=0
         unset TP_TOGGLE
         synclient TouchpadOff=0
     fi
@@ -152,6 +153,11 @@ extract() {
     else
         echo "'$1' is not a file."
     fi
+}
+
+function work() {
+    hjkl
+    toggle_touchpad
 }
 
 mktar() { tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
