@@ -90,7 +90,7 @@ command! -nargs=* Make tabnew | let $mkpath = SetMkfile() | make <args> -C $mkpa
 " endfunction
 " https://github.com/JarrodCTaylor/vim-plugin-starter-kit/wiki/Working-with-VimScript-variables"
 " IMB:
-function AlignAssignments ()
+function! AlignAssignments ()
     "Patterns needed to locate assignment operators...
     let ASSIGN_OP   = '[-+*/%|&]\?=\@<!=[=~]\@!'
     let ASSIGN_LINE = '^\(.\{-}\)\s*\(' . ASSIGN_OP . '\)'

@@ -17,6 +17,9 @@ set history=200
 set diffopt=vertical
 " set ttimeout ttimeoutlen=100
 set ch=2 " Make command line two lines high
+" tabs to 2, instead of 4
+set sw=2
+set ts=2
 set number
 " set relativenumber
 set list
@@ -56,13 +59,12 @@ set linebreak " wrap at word breaks
 " set showbreak=… " show an ellipsis at the start of wrapped lines
 " let &flp='\w\+> '
 set cpoptions+=n
-highlight NonText ctermfg=None     |" Theme your indent symbols
 set tw=80
 " }}}
 set lazyredraw
 " set showbreak=>\ _
 " delicious, enable showbreak when breakindent not working
-set synmaxcol=120
+" set synmaxcol=120
 set breakindent
 set sb spr | "split below and right
 " Always substitute all letters, not just substitute first hit on line
@@ -70,15 +72,30 @@ set gdefault
 if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
     let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
 endif
-" enable automatic yanking to and pasting from the selection
+" enable automatic yanking to and pasting from the selection cnp
 if has('unnamedplus')
     set clipboard=unnamedplus,unnamed
 else
     set clipboard+=unnamed
 endif
+
+vnoremap y m'y
+nnoremap v m'v
+" cnp
+" CTRL-X and SHIFT-Del are Cut
+vnoremap <C-X> "+x
+vnoremap <S-Del> "+x
+
+" CTRL-C and CTRL-Insert are Copy
+vnoremap <C-C> "+y
+vnoremap <C-Insert> "+y
+
+" CTRL-V and SHIFT-Insert are Paste
+inoremap <C-V> "+gP
 " set viminfo=%,'9999,s512,nexpand('g:portable')
 
 " -------------  plugins -------------
+let g:vcoolor_disable_mappings = 1
 let g:colorizer_maxlines=1000
 let g:yankring_persist = 0
 let g:rainbow_active = 1
@@ -162,6 +179,9 @@ let b:surround_{char2nr("i")} = "{% if \1condition: \1 %}\r{% endif %}"
 let b:surround_{char2nr("w")} = "{% with \1with: \1 %}\r{% endwith %}"
 let b:surround_{char2nr("f")} = "{% for \1for loop: \1 %}\r{% endfor %}"
 let b:surround_{char2nr("c")} = "{% comment %}\r{% endcomment %}"
+" mine
+let g:surround_{char2nr("p")} = "print( \r )"
+let g:surround_{char2nr("-")} = "\1my_py: \1( \r )"
 
 " Tagbar
 nmap <silent><F8> :TagbarToggle<CR>
@@ -205,18 +225,27 @@ let g:yankring_manage_numbered_reg = 1
 let bexec_rehighlight=1
 " let bexec_interpreter="/path/to/interpreter"
 
-" -------- shortcuts -------------
+" -------- shortcuts / keybinds -------------
+inoremap <C-w> <Esc>bdwa
 cmap gcc !gcc % -g -Wall -o inVimCompiled
 " ..sudo
 cmap W!! w !sudo tee > /dev/null %
 
-nnoremap <c-h> :let @i=expand("<cword>")<CR>:h <C-R>i<CR>
-nnoremap ,ffo : !firefox % &<cr><cr>
+nnoremap ,h :let @i=expand("<cword>")<CR>:h <C-R>i<CR>
+nnoremap ,ff : !firefox % &<cr><cr>
 
-nnoremap ,te :let @p=expand("%:p:h")<cr>: !x-terminal-emulator -T started_in_gvim --working-directory=<C-R>p &<cr>
+nnoremap ,te :let @p=expand("%:p:h")<cr>: !x-terminal-emulator -T started_in_gvim --working-directory=<C-R>p &
 nnoremap ,cd :cd %:p:h<CR>:pwd<CR>
 map pyk :!idle-python3.2 -r % & <CR> <CR>
+
+" Copy current buffer path relative to root of VIM session to system clipboard
+nnoremap <Leader>yp :let @*=expand("%")<cr>:echo "Copied file path to clipboard"<cr>
+" Copy current filename to system clipboard
+nnoremap <Leader>yf :let @*=expand("%:t")<cr>:echo "Copied file name to clipboard"<cr>
+" Copy current buffer path without filename to system clipboard
+nnoremap <Leader>yd :let @*=expand("%:h")<cr>:echo "Copied file directory to clipboard"<cr>
 " Delete line under your current position (Delete next-line).
+"
 nnoremap do myjdd`y
 nnoremap dO mykdd`y
 " Jump outside any parentheses or quotes, when your cursor is inside a closed region.
@@ -236,6 +265,8 @@ cmap ,<Space> <C-R>/
 nnoremap ,<Space> /
 
 " -------- mappings -------------
+nnoremap <c-h> :SidewaysLeft<cr>
+nnoremap <c-l> :SidewaysRight<cr>
 nnoremap ,0 :AirlineTheme cool<CR>
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(LiveEasyAlign)
@@ -278,6 +309,8 @@ command! -nargs=* -complete=help Help vertical belowright help <args>
 "substitude find and replace
 vnoremap ;; "hy:%s/<C-r>h//gc<left><left><left>
 vnoremap <leader><space> "hy/<C-r>h
+"get all in hochkomma
+map ," /".\{-}"<CR>
 " nnoremap <Leader>w :let @/=expand("<cword>")<Bar>split<Bar>normal n<CR>
 nnoremap <Leader>W :let @/='\<'.expand("<cword>").'\>'<Bar>vsplit<Bar>normal n<CR>
 
@@ -310,14 +343,13 @@ nnoremap k gk
 " easier moving between tabs/buffer
 nnoremap sa <esc>:tabprevious<CR>
 nnoremap se <esc>:tabnext<CR>
+nnoremap st :tabe %<CR>
 " nnoremap ,q <esc>:tabprevious<CR>
 " nnoremap ,w <esc>:tabnext<CR>
 nnoremap <silent> <F9> :MaximizerToggle<CR>
 " Folds
 " nnoremap <silent> <Space> @=(foldlevel('.')?'za':'l')<CR>
 " set <space> to toggle folds in normal & visual modes
-highlight Folded guifg=black guibg=black guifg=red
-highlight FoldColumn guifg=black guibg=darkgrey guifg=white
 nnoremap <space><space> za
 vnoremap <space> zf
 " alles markieren
@@ -352,6 +384,7 @@ nnoremap <silent> <Leader>f :let @+=expand("%:p")<cr>:echo "Copied current file
       \ path '".expand("%:p")."' to clipboard"<cr>
  " nnoremap <A-n> :hi StatusLineNC GUIBg=#141414 guifg=#9a7824 gui=underline<CR>:hi StatusLine guifg=#9a7824 guibg=#141414 gui=underline<CR>:split<CR>
 
+let &grepprg = 'grep -Rn $* .'
 " nnoremap <leader>g :execute "grep! -R " . shellescape(expand("<cWORD>")) . " getcwd() "<cr>:copen<cr>
 " nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
@@ -429,15 +462,20 @@ hi Title              gui=bold       guifg=#507080       guibg=NONE
 
 hi Cursor             guifg=black    guibg=green         gui=bold
 hi CursorLine         gui=NONE       guibg=gray10
-:hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 " :nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 highlight LineNr        guifg=#666666 guibg=#111111 gui=NONE
 highlight StatusLine    guifg=black   guibg=#85ff85 gui=bold
 highlight StatusLineNC  guifg=black   guibg=#add8e6 gui=NONE
-highlight Search        guifg=#000000 guibg=#a1a11d gui=bold
+" highlight Search      guifg=#000000 guibg=#a1a11d gui=bold
+highlight Search         guibg=#00ff40
 highlight Title         guifg=#3333cc guibg=NONE gui=NONE
 hi Todo  guifg=orangered guibg=gray10 gui=bold
 
+highlight NonText ctermfg=None     |" Theme your indent symbols
+" highlight Folded guifg=#001010 guibg=#001010 guifg=#a00066
+highlight Folded guifg=#001010 guibg=#001010 guifg=#30dfaf
+highlight FoldColumn guifg=#000000 guibg=#000000 guifg=white
 " -------------last words
 filetype plugin on
 

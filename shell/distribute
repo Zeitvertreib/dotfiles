@@ -26,11 +26,18 @@ do
 done
 
 # "plugins"
-if [ -f $DIR/openbox/distribute ]; then
-    . $DIR/openbox/distribute
-fi
+function plugins(){
+    local found_df_plugins=()
+    if [ -f $DIR/openbox/distribute ]; then
+        . $DIR/openbox/distribute
+        $found_df_plugins+="openbox"
+    fi
 
-if [ -f $DIR/conky/distribute ]; then
-    echo found
-    . $DIR/conky/distribute
-fi
+    if [ -f $DIR/conky/distribute ]; then
+        $found_df_plugins+="conky"
+        . $DIR/conky/distribute
+    fi
+    echo "own plugins found: $found_df_plugins"
+}
+
+plugins

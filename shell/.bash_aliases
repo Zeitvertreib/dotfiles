@@ -6,6 +6,9 @@
 # outdated: export WORKON_HOME="$HOME/Envs"
 # source $HOME/bin/virtualenvwrapper_bashrc
 
+# dev
+source $DIR/shell/concepts/syms.sh
+
 # beeps off
 if [ -n "$DISPLAY" ]; then
   xset b off
@@ -29,14 +32,18 @@ alias pydoc='python -m pydoc'
 alias dir='ls --color=auto --format=vertical'
 alias vdir='ls --color=auto --format=long'
 alias l.='ls -d .??*'
+alias l..='ls -dhlrt .??*'
 alias ld='ls -d */'
-alias ll='ls -lhX'
+alias ld.='ls -dhrlt */'
+alias ls.='ls -lhXrt'
+# alias la='ls -a | grep ^.*'
 alias la='ls -a | grep ^.*'
 alias ldir='ls -lhA |grep ^d'
 alias lfiles='ls -lhA |grep ^-'
+alias lns='ls -l `find . -maxdepth 1 -type l -print`'
 #alias l='ls -CF'
 # To see something coming into ls output: lss
-alias lss='ls -lrt | grep $1'
+alias lss='ls -lahrt | grep $1'
 
 # To check a process is running in a box with a heavy load: pss
 alias pss='ps -ef | grep $1'
@@ -94,10 +101,6 @@ function grename() {
     esac 
 }
 # base dir nav
-alias programming='cd $home_dir/programming; ls'
-alias documents='cd $home_dir/documents'
-alias music='cd $home_dir/music'
-alias downloads='cd $home_dir/downloads'
 alias cfg='cd $(echo -n "$DIR/$*")'
 # alias cfg='chmod +x $bash_scripts/args_to_path ; .$bash_scripts/args_to_path $* ; chmod -x $bash_scripts/args_to_path'
 # alias cfg='$bash_scripts args_to_path $*'
@@ -155,10 +158,14 @@ extract() {
     fi
 }
 
-function work() {
+function infect_mine() {
     hjkl
     toggle_touchpad
+    # set lang
+    LANG=de_DE.utf8
 }
+
+source $HOME/tmp/bash/projects.sh
 
 mktar() { tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
 mktgz() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }

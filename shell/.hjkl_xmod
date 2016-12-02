@@ -11,7 +11,7 @@ keycode 66 = NoSymbol NoSymbol
 keycode 66 = ISO_Level3_Shift
 ! keycode 66 = Mode_switchISO_Level3_Shift
 
-keysym i = i I NoSymbol NoSymbol BackSpace NoSymbol
+keysym o = o O NoSymbol NoSymbol BackSpace NoSymbol
 keysym u = u U NoSymbol NoSymbol Delete NoSymbol
 keysym h = h H NoSymbol NoSymbol Left Left
 keysym j = j J NoSymbol NoSymbol Down Down

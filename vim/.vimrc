@@ -2,19 +2,26 @@
 " so honor someone else !!!
 " set default 'runtimepath'
 let &runtimepath = printf('%s/vimfiles,%s,%s/vimfiles/after', $VIM, $VIMRUNTIME, $VIM)
-" echo "portable ".expand('<sfile>')." used"
 
 " what is the name of the directory containing this file?
-" portable load config:
-let g:portable = expand('<sfile>:p:h')
+" global config:
+let g:global = expand('<sfile>:p:h')
+" echo "target installation: ".g:global
+" portal config, injection:
+let s:portable_raw =resolve(expand('<sfile>:p'))
+" echo "resolved: ".s:portable_raw
+let g:portable = fnamemodify(s:portable_raw, ":h")
+" echo "resolved, modified, used: ".expand(g:portable)
+" mods, becaus following des not work
+" echo "resolved: ".resolve(expand('<sfile>:p:h'))
 
-" let s:portableVundle= g:portable . '/bundle/Vundle.vim'
-let s:portableBundle= g:portable . '/bundle'
+" let s:portableVundle= g:global . '/bundle/Vundle.vim'
+let s:portableBundle= g:global . '/bundle'
 
 " add the directory to 'runtimepath'
-let &runtimepath = printf('%s,%s,%s/after', g:portable, &runtimepath, g:portable)
+let &runtimepath = printf('%s,%s,%s/after', g:global, &runtimepath, g:global)
 
-" start vim with: vim -u /path/to/portable/vim/.vimrc
+" start vim with: vim -u /path/to/global/vim/.vimrc
 " let mapleader=","
 
 set nocompatible | filetype off
@@ -46,12 +53,16 @@ Plug 'itchyny/vim-cursorword'
 " Plug 'osyo-manga/vim-stripe'
 Plug 'osyo-manga/vim-over'
 Plug 'osyo-manga/vim-hopping'
-Plug 'tyru/open-browser.vim'
+" Plug 'tyru/open-browser.vim'
+Plug 'lordm/vim-browser-reload-linux'
+" Plug 'jaxbot/browserlink.vim'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'AndrewRadev/sideways.vim'
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
+Plug 'AndrewRadev/splitjoin.vim'
 " Plug 'lervag/vimtex'
 " Plug 'LaTeX-Box-Team/LaTeX-Box'
 " IDE-ish
@@ -75,7 +86,7 @@ Plug 'wincent/command-t'
 " Plug 'carlhuda/janus'
 " Plug 'xolox/vim-easytags'
 " Plug 'rkulla/pydiction'
-Plug 'fboender/bexec'
+" Plug 'fboender/bexec'
 " ======================================
 " Plug 'LucHermitte/lh-vim-lib'
 " Plug 'LucHermitte/lh-tags'
@@ -122,6 +133,7 @@ Plug 'kshenoy/vim-signature'
 " alternative try:
 Plug 'lilydjwg/colorizer'
 Plug 'luochen1990/rainbow'
+Plug 'KabbAmine/vCoolor.vim'
 
 Plug 'scrooloose/nerdtree'
 " Plug 'jistr/vim-nerdtree-tabs'
@@ -170,21 +182,20 @@ call plug#end()           | " required
 " call pathogen#helptags()
 
 function! Migrate_portable_vim()
-    let s:portable_Plugin = g:portable . '/plugin'
+    " let s:portable_Plugin = g:portable . '/plugin'
     let s:p_configs = [ "my_vimrc.vim", "my_func.vim", "my_omni.vim", "my_airline.vim"]
     for ff in s:p_configs
-      let pf = s:portable_Plugin.'/'.ff
-        if filereadable( expand(pf)) == 0
-            let dot_f = '~/dotfiles/vim/'.ff
+      let pf = g:portable.'/'.ff
+        if filereadable( expand(pf)) == 1
+            " let dot_f = '~/dotfiles/vim/'.ff
             " execute '!ln -s ~/dotfiles/vim/'.ff.' '.pf
-            execute "source " . dot_f
+            execute "source " . pf
+            " echo pf
         endif
     endfor
 endfunction
 
 call Migrate_portable_vim()
-
-syntax enable
 
 filetype on
 filetype plugin indent on    " required

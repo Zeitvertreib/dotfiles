@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# unused (?)
 # create a symlink at $dest pointing to $source
 # not tested
 set -e   # abort on errors
