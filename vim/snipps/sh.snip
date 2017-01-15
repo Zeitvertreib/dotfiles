@@ -1,0 +1,17 @@
+snippet i[
+    if [[ ${1:condition} ]]; then
+        ${2:list}
+    fi
+    ${3:end}
+
+snippet i[(
+    if [[ (( ${1:condition} )) ]]; then
+        ${2:list}
+    fi
+    ${3:end}
+
+snippet i()
+    if (( ${1:condition} )); then
+        ${2:list}
+    fi
+    ${3:end}
