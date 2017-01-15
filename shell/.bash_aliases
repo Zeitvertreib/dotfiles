@@ -7,7 +7,6 @@
 # source $HOME/bin/virtualenvwrapper_bashrc
 
 # dev
-source $DIR/shell/concepts/syms.sh
 
 # beeps off
 if [ -n "$DISPLAY" ]; then
@@ -19,13 +18,14 @@ alias con2='cd $DIR/../conky/; conky -q -c .conky_calender; conky -q -c .conkyrc
 alias scdual='~/.screenlayout/dualhead.sh'
 alias scmono='~/.screenlayout/mono.sh'
 alias hjkl='xmodmap $DIR/shell/.hjkl_xmod'
+alias loadup_node='export NVM_DIR="/home/duck/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'  # This loads nvm
+l_node() {
+  export NVM_DIR="$HOME/.nvm";
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh";
+  } # This loads nvm, for in vim
+alias loadup_jupyter='export PATH="/datenspeicher/data/programming/lib/anaconda/bin:$PATH"'
 
 # variables
-user=$(whoami)
-home_dir=$(echo "/home/$user")
-bash_scripts=$(echo "$DIR"/bash)
-# echo $bash_scripts
-# $DIR = ..siehe redirect! variable for this directory
 
 # alias ls='ls -lF'
 alias pydoc='python -m pydoc'
@@ -76,7 +76,7 @@ alias gs='git status'
 alias gp='git push'
 alias gr='git remote $1'
 #
-function grename() {
+function gitrename() {
     if [ -z "$1" ]
     then
         echo "renaming current_branch failed"
@@ -120,7 +120,7 @@ alias pmr='python3 manage.py runserver'
 alias pmrp="python3 manage.py runserver_plus"
 alias pmsp="python3 manage.py shell_plus"
 alias dgo='source bin/activate; pip freeze'
-alias django='cd $(echo $home_dir/programming/web/)'
+# alias django='cd $(echo $home_dir/programming/web/)'
 alias soa="source bin/activate"
 alias soav="source ~/venv_horse/bin/activate"
 
@@ -165,7 +165,7 @@ function infect_mine() {
     LANG=de_DE.utf8
 }
 
-source $HOME/tmp/bash/projects.sh
+# source $HOME/tmp/bash/projects.sh
 
 mktar() { tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
 mktgz() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }

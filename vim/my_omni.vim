@@ -18,7 +18,7 @@ let g:neosnippet#snippets_directory= g:portable . '/snipps'
 " noremap <expr><CR> pumvisible()? "\<C-y>" : "\<CR>"
 let g:neocomplete#sources#syntax#min_keyword_length = 4
 let g:neocomplete#auto_completion_start_length = 3
-
+let g:neocomplete#enable_auto_close_preview = 1
 " let g:acp_enableAtStartup = 0
 " Use neocomplete.
 let g:neocomplete#enable_at_startup = 1

@@ -12,6 +12,7 @@ DIRsd=$DIR/shell
 # rework this..
 # for dotfiles // not really needed..
 shopt -s dotglob
+width=800
 
 # list the to load files
 list=$(ls -a "$DIRsd"|grep .bash)
@@ -30,12 +31,22 @@ function plugins(){
     local found_df_plugins=()
     if [ -f $DIR/openbox/distribute ]; then
         . $DIR/openbox/distribute
-        $found_df_plugins+="openbox"
+        found_df_plugins+="openbox "
     fi
 
     if [ -f $DIR/conky/distribute ]; then
-        $found_df_plugins+="conky"
+        found_df_plugins+="conky "
         . $DIR/conky/distribute
+    fi
+
+    if [ -f $DIR/shell/concepts/helper.sh ]; then
+        found_df_plugins+="helper "
+        . $DIR/shell/concepts/helper.sh
+    fi
+
+    if [ -f $DIR/shell/concepts/gg.sh ]; then
+        found_df_plugins+="gg "
+        . $DIR/shell/concepts/gg.sh
     fi
     echo "own plugins found: $found_df_plugins"
 }

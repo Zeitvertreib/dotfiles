@@ -18,10 +18,10 @@ set diffopt=vertical
 " set ttimeout ttimeoutlen=100
 set ch=2 " Make command line two lines high
 " tabs to 2, instead of 4
-set sw=2
-set ts=2
+" Lineal
 set number
-" set relativenumber
+set nornu
+" set relativenumber!
 set list
 set wildmenu
 set formatoptions-=t " Do not auto-wrap text using textwidth
@@ -42,16 +42,16 @@ set incsearch "searching while typing?
 set hlsearch " highlight search at default
 set hidden "soll machen, dass es nicht immer speichern muss...
 set gcr=a:blinkon0 "cursorblinken abstellen
-set cpoptions+=$ "setzt ein $ am ende des 'changes'
+set cpoptions+=$ "markiert, wo c aufhoert
 set wildignore+=*.pyc
 " set statusline=\ %t\ %l\/%L
 set laststatus=2
 set modelines=0
 " CURSOR {{{
-"set cursorline
+set cursorline
 set sidescroll=1
-set sidescrolloff=20
-set scrolloff=50 "scrollabstand zu unten und oben?
+set sidescrolloff=10
+set scrolloff=15 "scrollabstand zu unten und oben?
 " WRAPPING {{{
 nnoremap <M-w> :set wrap!<CR>
 set whichwrap+=<,>,[,] " allow cursor keys to go right off end of one line, onto start of next
@@ -62,13 +62,26 @@ set cpoptions+=n
 set tw=80
 " }}}
 set lazyredraw
-" set showbreak=>\ _
-" delicious, enable showbreak when breakindent not working
 " set synmaxcol=120
 set breakindent
 set sb spr | "split below and right
 " Always substitute all letters, not just substitute first hit on line
 set gdefault
+
+" Indentation
+" set showbreak=>\ _
+" delicious, enable showbreak when breakindent not working
+
+" Folding
+set foldmethod=syntax
+set foldnestmax=10
+set nofoldenable
+set foldlevel=1
+" nnoremap <silent> <Space> @=(foldlevel('.')?'za':'l')<CR>
+" set <space> to toggle folds in normal & visual modes
+nnoremap <space><space> za
+vnoremap <space> zf
+
 if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
     let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
 endif
@@ -92,6 +105,10 @@ vnoremap <C-Insert> "+y
 
 " CTRL-V and SHIFT-Insert are Paste
 inoremap <C-V> "+gP
+
+" Select just pasted text
+nnoremap <leader>v V`]
+
 " set viminfo=%,'9999,s512,nexpand('g:portable')
 
 " -------------  plugins -------------
@@ -113,11 +130,39 @@ map ,l :NERDTreeToggle<CR>
 map ,k :NERDTreeFind<CR>
 let NERDTreeIgnore = ['\.pyc$', '^__pycache__$']
 let NERDTreeChDirMode = 0
+" call NERDTreeAddKeyMap({
+        " \ 'key': '<ESC>',
+        " \ 'callback': 'NERDTreeMapQuit',
+        " \ 'quickhelpText': 'closes, like q'})
+
 " Startify
 let g:startify_use_env = 1
 let g:startify_custom_indices = ['a','f', 'g', 'h']
 let g:startify_session_sort = 1
-let g:startify_skiplist = ['.vimrc']
+let g:startify_list_order = [
+        \ [' Sessions'], 'sessions',
+        \ ['  MRU '], 'files',
+        \ ['  MRU '.getcwd()], 'dir',
+        \ [' Bookmars'], 'bookmarks',
+        \ [' Commands'], 'commands',
+        \ ]
+
+let g:startify_files_number = 5
+let g:startify_session_dir = '$HOME/tmp/vimsessions'
+let g:startify_skiplist = [
+    \ '.vimrc',
+    \ expand(g:portable.'/'.'*')]
+let g:startify_bookmarks = [
+    \ { 'b': expand(fnamemodify(g:portable, ":h").'/shell/'.'distribute')},
+    \ { 'gg': expand(fnamemodify(g:portable, ":h").'/shell/concepts/'.'gg.sh')},
+    \ { 'vv': expand(g:portable.'/'.'my_vimrc.vim')},
+    \ { 'v.': expand(g:portable.'/'.'.vimrc')},
+    \ { 'gdir': '~/tmp/syms/'} ]
+
+" \ {'n': ['node support', 'call My_node()']},
+let g:startify_commands = [
+    \ {'xxx': 'h ref'},
+    \ ]
 
 let g:ascii = [
         \ '               ',
@@ -290,15 +335,21 @@ vnoremap < <gv
 vnoremap > >gv
 " Toggle and untoggle spell checking
 noremap <leader>ss :setlocal spell! spelllang=de<CR>
+"
+" SPELLING
+" toggle spell checking
+nnoremap <silent> <leader>s :set spell!<CR>
+
+" correct the current word and move to the next one using ,S
+nnoremap <silent> <leader>S 1z=]s
+set spelllang=en_us " Set region to US English
+" let &spellfile=g:DV."/spell/en.latin1.add"
 
 " switch to last buffer
 nnoremap <leader>d <c-^>
 map <F1> <Esc>
 map! <F1> <Esc>
 
-" Select just pasted text
-nnoremap <leader>v V`]
-nnoremap <Space>l :NERDTreeFind<CR>
 map c9 :lcl<CR>
 " closes quifixwindow
 imap ,dw <C-R>=string(eval(input("Berechne: ")))<CR>
@@ -306,7 +357,7 @@ command! Rechner <C-R>=string(eval(input("Berechne: ")))<CR>
 " space to search vergesse ich immer
 " macht :h vertival, BEACHTE ^H!
 command! -nargs=* -complete=help Help vertical belowright help <args>
-"substitude find and replace
+" substitute find and replace
 vnoremap ;; "hy:%s/<C-r>h//gc<left><left><left>
 vnoremap <leader><space> "hy/<C-r>h
 "get all in hochkomma
@@ -314,6 +365,7 @@ map ," /".\{-}"<CR>
 " nnoremap <Leader>w :let @/=expand("<cword>")<Bar>split<Bar>normal n<CR>
 nnoremap <Leader>W :let @/='\<'.expand("<cword>").'\>'<Bar>vsplit<Bar>normal n<CR>
 
+" substitute
 noremap ;; :%s:::g<Left><Left><Left><C-R>/<Right>
 " macht in regex : anstelle \
 " s/\/dir1\/dir2\/dir3\/file/dir4\/dir5\/file2/g
@@ -347,20 +399,11 @@ nnoremap st :tabe %<CR>
 " nnoremap ,q <esc>:tabprevious<CR>
 " nnoremap ,w <esc>:tabnext<CR>
 nnoremap <silent> <F9> :MaximizerToggle<CR>
-" Folds
-" nnoremap <silent> <Space> @=(foldlevel('.')?'za':'l')<CR>
-" set <space> to toggle folds in normal & visual modes
-nnoremap <space><space> za
-vnoremap <space> zf
 " alles markieren
 nnoremap <m-a> <ESC>ggVG
 " save
 inoremap <c-s> <esc>:update<cr>
 nnoremap <c-s> <esc>:update<cr>
-" map cut & paste to what they bloody should be
-vnoremap <C-c> "+y
-vnoremap <C-x> "+x
-vnoremap <C-v> "+gP
 " map <c-c> "*y
 " window movement
 nnoremap s <c-w>
@@ -422,8 +465,10 @@ highlight! link messagesError NONE
 "endw
 
 " ............. coloring
-" set background=dark
-colorscheme gotham256
+" colorscheme gotham256
+colorscheme gruvbox
+" let g:gruvbox_vert_split="red"
+set background=dark
 " colorscheme hybrid
 " colorscheme knuckleduster
 " colorscheme pencil
@@ -457,29 +502,34 @@ highlight ExtraWhitespace ctermbg=NONE
 hi TabLine            gui=NONE       guifg=#507080       guibg=Black
 hi TabLineSel         gui=bold       guifg=Black         guibg=#507080
 hi TabLineFill        gui=NONE       guifg=White         guibg=Black
-
 hi Title              gui=bold       guifg=#507080       guibg=NONE
 
-hi Cursor             guifg=black    guibg=green         gui=bold
-hi CursorLine         gui=NONE       guibg=gray10
-hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+" hi Cursor             guifg=black    guibg=green         gui=bold
+" hi CursorLine           guibg=gray10
+hi CursorColumn         cterm=NONE    ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 " :nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
-highlight LineNr        guifg=#666666 guibg=#111111 gui=NONE
+highlight LineNr        guifg=#666666 guibg=gray15
 highlight StatusLine    guifg=black   guibg=#85ff85 gui=bold
 highlight StatusLineNC  guifg=black   guibg=#add8e6 gui=NONE
 " highlight Search      guifg=#000000 guibg=#a1a11d gui=bold
-highlight Search         guibg=#00ff40
+highlight Search        guifg=gray20  guibg=#00ff40
 highlight Title         guifg=#3333cc guibg=NONE gui=NONE
 hi Todo  guifg=orangered guibg=gray10 gui=bold
 
 highlight NonText ctermfg=None     |" Theme your indent symbols
 " highlight Folded guifg=#001010 guibg=#001010 guifg=#a00066
 highlight Folded guifg=#001010 guibg=#001010 guifg=#30dfaf
-highlight FoldColumn guifg=#000000 guibg=#000000 guifg=white
+highlight FoldColumn guifg=#1A1A1A guibg=#000000 guifg=white
 " -------------last words
-filetype plugin on
+filetype plugin indent on
 
 set makeprg="make -C build"
+
+set autoindent
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
 
 " set showtabline=0
 " au BufRead .* setf sh

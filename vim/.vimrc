@@ -3,11 +3,10 @@
 " set default 'runtimepath'
 let &runtimepath = printf('%s/vimfiles,%s,%s/vimfiles/after', $VIM, $VIMRUNTIME, $VIM)
 
-" what is the name of the directory containing this file?
-" global config:
+" the name of the directory containing this file
 let g:global = expand('<sfile>:p:h')
 " echo "target installation: ".g:global
-" portal config, injection:
+" wokr around on symlinks, double resolve
 let s:portable_raw =resolve(expand('<sfile>:p'))
 " echo "resolved: ".s:portable_raw
 let g:portable = fnamemodify(s:portable_raw, ":h")
@@ -34,7 +33,7 @@ call plug#begin(s:portableBundle)
 
 " let Vundle manage Vundle, required
 " Plugin 'VundleVim/Vundle.vim'
-Plug 'tpope/vim-pathogen'
+" Plug 'tpope/vim-pathogen'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
@@ -54,8 +53,8 @@ Plug 'itchyny/vim-cursorword'
 Plug 'osyo-manga/vim-over'
 Plug 'osyo-manga/vim-hopping'
 " Plug 'tyru/open-browser.vim'
-Plug 'lordm/vim-browser-reload-linux'
-" Plug 'jaxbot/browserlink.vim'
+" Plug 'lordm/vim-browser-reload-linux'
+Plug 'jaxbot/browserlink.vim'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -68,12 +67,16 @@ Plug 'AndrewRadev/splitjoin.vim'
 " IDE-ish
 " Plug 'SirVer/ultisnips'
 " Plug 'honza/vim-snippets'
+Plug 'majutsushi/tagbar'
 Plug 'Shougo/neocomplete'
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/neco-vim'
 
+" Plug 'ivanov/vim-ipython'
+"
+" Plug 'johndgiese/vipy'
 " Plug 'scrooloose/syntastic'
 " Plug 'lambdalisue/vim-pyenv'
 " Plug 'rkulla/pydiction'
@@ -93,6 +96,7 @@ Plug 'wincent/command-t'
 " Plug 'LucHermitte/lh-dev'
 " Plug 'LucHermitte/lh-brackets'
 
+" Plug 'myusuf3/numbers.vim'
 Plug 'matze/vim-move'
 Plug 'easymotion/vim-easymotion'
 Plug 'justinmk/vim-sneak'
@@ -140,7 +144,7 @@ Plug 'scrooloose/nerdtree'
 
 Plug 'scrooloose/nerdcommenter'
 " closes bracets
-" Plug 'raimondi/delimitmate'
+Plug 'raimondi/delimitmate'
 " following bugged!!!!!!!!!!!!!!!!!!!!!!
 " Plug 'kopischke/vim-stay'
 
@@ -153,9 +157,12 @@ Plug 'scrooloose/nerdcommenter'
 " makes use quikfix...
 " Plug 'jceb/vim-hier'
 
+Plug 'pangloss/vim-javascript'
 Plug 'jelera/vim-javascript-syntax'
 
 " colorshemes:
+Plug 'jaxbot/semantic-highlight.vim'
+Plug 'chriskempson/base16'
 Plug 'w0ng/vim-hybrid'
 Plug 'JarrodCTaylor/vim-256-color-schemes'
 Plug 'ewilazarus/preto'

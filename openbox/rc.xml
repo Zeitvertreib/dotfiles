@@ -449,6 +449,15 @@
     <keybind key="W-d">
       <action name="ToggleDecorations"/>
     </keybind>
+    <keybind key="W-c">
+      <action name="Execute">
+        <startupnotify>
+          <enabled>true</enabled>
+          <name>colorpicker, zenity</name>
+        </startupnotify>
+        <command>zenity --color-selection --show-palette</command>
+      </action>
+    </keybind>
     <keybind key="W-z">
       <action name="Execute">
         <startupnotify>

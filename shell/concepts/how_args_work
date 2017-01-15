@@ -1,8 +1,0 @@
-echo -n "$1" ; echo -n "_as_"; echo $1
-$1
-"$1"
-echo done double q as none
-echo -n "`$1`" ; echo -n "_as_" ; echo `$1`
-echo apos
-echo -n "'$1'" ; echo -n "_as_" ; echo '$1'
-echo done double over single as single

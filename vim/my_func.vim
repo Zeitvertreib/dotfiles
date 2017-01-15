@@ -42,6 +42,10 @@ endfunction
 
 map ,p :call Pluginmanager()<CR>
 
+fun! My_node()
+  :shell
+endf
+
 fun! SetMkfile()
   let filemk = "Makefile"
   let pathmk = "./"
@@ -58,6 +62,58 @@ endf
 
 command! -nargs=* Make tabnew | let $mkpath = SetMkfile() | make <args> -C $mkpath | cwindow 10
 
+"Badass Functions
+function! OpenChangedFiles()
+  only " Close all windows, unless they're modified
+  let status = system('git status -s | grep "^ \?\(M\|A\|UU\)" | sed "s/^.\{3\}//"')
+  let filenames = split(status, "\n")
+  exec "edit " . filenames[0]
+  for filename in filenames[1:]
+    exec "sp " . filename
+  endfor
+endfunction
+command! OpenChangedFiles :call OpenChangedFiles()
+
+" make list-like commands more intuitive
+" list commands demand a number to jump to, after performed. ..you want that
+" from https://gist.github.com/romainl/047aca21e338df7ccf771f96858edb86
+function! CCR()
+    let cmdline = getcmdline()
+    if cmdline =~ '\v\C^(ls|files|buffers)'
+        " like :ls but prompts for a buffer command
+        return "\<CR>:b"
+    elseif cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
+        " like :g//# but prompts for a command
+        return "\<CR>:"
+    " elseif cmdline =~ '\v\C^(dli|il)'
+        " " like :dlist or :ilist but prompts for a count for :djump or :ijump
+        " return "\<CR>:" . cmdline[0] . "j  " . split(cmdline, " ")[1] . "\<S-Left>\<Left>"
+    elseif cmdline =~ '\v\C^(cli|lli)'
+        " like :clist or :llist but prompts for an error/location number
+        return "\<CR>:sil " . repeat(cmdline[0], 2) . "\<Space>"
+    elseif cmdline =~ '\C^old'
+        " like :oldfiles but prompts for an old file to edit
+        set nomore
+        return "\<CR>:sil se more|e #<"
+    elseif cmdline =~ '\C^changes'
+        " like :changes but prompts for a change to jump to
+        set nomore
+        return "\<CR>:sil se more|norm! g;\<S-Left>"
+    elseif cmdline =~ '\C^ju'
+        " like :jumps but prompts for a position to jump to
+        set nomore
+        return "\<CR>:sil se more|norm! \<C-o>\<S-Left>"
+    elseif cmdline =~ '\C^marks'
+        " like :marks but prompts for a mark to jump to
+        return "\<CR>:norm! `"
+    elseif cmdline =~ '\C^undol'
+        " like :undolist but prompts for a change to undo
+        return "\<CR>:u "
+    else
+        return "\<CR>"
+    endif
+endfunction
+cnoremap <expr> <CR> CCR()
 "python with virtualenv support // rework this
 " py << EOF
 " import os
@@ -141,23 +197,23 @@ autocmd FileType python let b:dispatch = 'python %'
 autocmd FileType java let b:dispatch = 'javac %'
 autocmd FileType javascript let b:dispatch = 'node %'
 
-nnoremap <leader>dp :Dispatch<CR>
-" to see the output of the quick fix window
-nnoremap <leader>c :Copen<CR>
-"nnoremap <space>d :Dispatch bundle exec rspec %<CR>
-nnoremap <leader>br :Dispatch ruby %<CR>
+" nnoremap <leader>dp :Dispatch<CR>
+" " to see the output of the quick fix window
+" nnoremap <leader>c :Copen<CR>
+" "nnoremap <space>d :Dispatch bundle exec rspec %<CR>
+" nnoremap <leader>br :Dispatch ruby %<CR>
 
-function! FileName()
-    let l:file_name = bufname("%")
-    let l:line_num  = line(".")
-    let l:total     = ( l:file_name.":".l:line_num )
-    :exe "Dispatch mix test ".total
-endfunction
+" function! FileName()
+    " let l:file_name = bufname("%")
+    " let l:line_num  = line(".")
+    " let l:total     = ( l:file_name.":".l:line_num )
+    " :exe "Dispatch mix test ".total
+" endfunction
 
-nnoremap <leader>mc :call FileName()<CR>
-nnoremap <leader>mf :Dispatch mix test %<CR>
-nnoremap <leader>mt :Dispatch mix test<CR>
+" nnoremap <leader>mc :call FileName()<CR>
+" nnoremap <leader>mf :Dispatch mix test %<CR>
+" nnoremap <leader>mt :Dispatch mix test<CR>
 
-nnoremap <leader>dc :Dispatch bundle check <CR>
-nnoremap <leader>di :Dispatch bundle install<CR>
-nnoremap <leader>dl :Dispatch bundle install --local<CR>
+" nnoremap <leader>dc :Dispatch bundle check <CR>
+" nnoremap <leader>di :Dispatch bundle install<CR>
+" nnoremap <leader>dl :Dispatch bundle install --local<CR>
