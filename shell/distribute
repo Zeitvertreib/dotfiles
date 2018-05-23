@@ -1,8 +1,7 @@
-# PATH to dir, where this File is located, fetch the others from here
 # source this file from within your .bashrc like:
 #
-# if [ -f ~/path/to/this/file ]; then
-    # . ~/path/to/this/file
+# if [ -f ~/dotfiles/shell/distribute ]; then
+    # . ~/dotfiles/shell/distribute
 # fi
 #
 # DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -29,20 +28,27 @@ done
 # "plugins"
 function plugins(){
     local found_df_plugins=()
-    if [ -f $DIR/openbox/distribute ]; then
-        . $DIR/openbox/distribute
-        found_df_plugins+="openbox "
-    fi
 
-    if [ -f $DIR/conky/distribute ]; then
-        found_df_plugins+="conky "
-        . $DIR/conky/distribute
-    fi
-
+    # should be loaded first, includes injection function: sym_backup_file
     if [ -f $DIR/shell/concepts/helper.sh ]; then
         found_df_plugins+="helper "
         . $DIR/shell/concepts/helper.sh
     fi
+
+    # if [ -f $DIR/DE/tint2/distribute ]; then
+        # . $DIR/DE/tint2/distribute
+        # found_df_plugins+="tint2 "
+    # fi
+
+    # if [ -f $DIR/DE/openbox/distribute ]; then
+        # . $DIR/DE/openbox/distribute
+        # found_df_plugins+="openbox "
+    # fi
+
+    # if [ -f $DIR/DE/conky/distribute ]; then
+        # . $DIR/DE/conky/distribute
+        # found_df_plugins+="conky "
+    # fi
 
     if [ -f $DIR/shell/concepts/gg.sh ]; then
         found_df_plugins+="gg "

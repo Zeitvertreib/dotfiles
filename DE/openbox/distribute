@@ -1,0 +1,14 @@
+#!/bin/bash
+
+RC_destination="$HOME/.config/openbox/rc.xml"
+
+if [[ "$2" == "undo" ]]; then
+    sym_backup_file $RC_destination undo
+    echo openbox undone
+    return
+fi
+
+sym_backup_file $RC_destination $DIR/DE/openbox/rc.xml
+
+
+"openbox: rc.xml overwritten, custom settings enabled"

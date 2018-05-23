@@ -15,3 +15,9 @@ snippet i()
         ${2:list}
     fi
     ${3:end}
+
+snippet for
+    for (( ${1:i=0}; ${2:i<=10}; ${3:i++} ))
+    do
+    ${4:echo "Welcome $i times"$}
+    ${5:done}

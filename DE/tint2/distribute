@@ -1,0 +1,12 @@
+#!/bin/bash
+
+RC="$HOME/.config/tint2/tint2rc"
+
+if [[ "$2" == "undo" ]]; then
+    sym_backup_file $RC undo
+    echo tint2 undone
+    return
+fi
+
+sym_backup_file $RC $DIR/DE/tint2/tint2rc "tint2: tint2rc overwritten, custom settings"
+

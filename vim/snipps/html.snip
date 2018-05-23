@@ -1,0 +1,78 @@
+snippet html_django
+    <!DOCTYPE html>
+    <html>
+        <head>
+        {% load staticfiles %}
+            <title>{% block title %} default title {% endblock %}</title>
+            <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+            <link rel="stylesheet" href="../bootstrap337.min.css">
+            <link rel="stylesheet" href="{% static 'appname/style.css' %}">
+        <style>
+        </style>
+        <body>
+            <div class="header" role="header">
+                <h1><a href="{% url 'homepage' %}">Home</a></h1>
+            </div>
+            <nav>
+                <ul>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}?next=/">Logout</a></li>
+                {% else %}
+                    <li><a href="/login/?next=/">Log in</a></li>
+                {% endif %}
+                </ul>
+            </nav>
+
+            {% block container %}
+            {% endblock %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-6"></div>
+                </div>
+            </div>
+        </body>
+    </html>
+
+snippet html
+    <!DOCTYPE html>
+    <html>
+            <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+            <link rel="stylesheet" href="../bootstrap337.min.css">
+            <link rel="stylesheet" href="style.css">
+        <style>
+        </style>
+        <body>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-6"></div>
+                </div>
+            </div>
+        </body>
+    </html>
+
+snippet block
+    {% block ${1} %}
+    {% endblock %}
+    ${2}
+
+snippet if
+    {% if ${1:obj} %}
+        ${2}
+    {$ else %}
+        ${3}
+    {% endif %}
+    ${4}

@@ -3,6 +3,7 @@ let g:airline_theme='base16_chalk'
 let g:airline_right_sep=''
 let g:airline_left_sep=''
 let g:airline_exclude_preview = 1
+let g:airline#extensions#branch#displayed_head_limit=1
 " function! My_Airline()
     " :AirlineTheme cool<CR>
 " endfunction

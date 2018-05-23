@@ -7,7 +7,9 @@
 " in case of system overwrite
 let $LANG = 'en'
 set langmenu=en_US.UTF-8
-
+" nivm related
+let g:deoplete#enable_at_startup = 1
+" autocmd OptionSet guicursor noautocmd set guicursor=
 " If there are two windows with scroll bind option enabled, scroll them simultaneously.
     " setl scrollbind
 " Scrolling asynchrously in splitted windows, even with same buffer.
@@ -48,7 +50,7 @@ set wildignore+=*.pyc
 set laststatus=2
 set modelines=0
 " CURSOR {{{
-set cursorline
+" set cursorline
 set sidescroll=1
 set sidescrolloff=10
 set scrolloff=15 "scrollabstand zu unten und oben?
@@ -71,9 +73,10 @@ set gdefault
 " Indentation
 " set showbreak=>\ _
 " delicious, enable showbreak when breakindent not working
+let g:indentLine_char="·"
 
 " Folding
-set foldmethod=syntax
+" set foldmethod=syntax
 set foldnestmax=10
 set nofoldenable
 set foldlevel=1
@@ -81,7 +84,53 @@ set foldlevel=1
 " set <space> to toggle folds in normal & visual modes
 nnoremap <space><space> za
 vnoremap <space> zf
+set foldtext=v:folddashes.substitute(getline(v:foldstart),'/\\*\\\|\\*/\\\|{{{\\d\\=','','g')
 
+if has("folding")
+  set foldenable        " enable folding
+  set foldmethod=syntax " fold based on syntax highlighting
+  set foldlevelstart=99 " start editing with all folds open
+
+  " toggle folds
+  " nnoremap <Space> za
+  " vnoremap <Space> za
+
+  set foldtext=FoldText()
+  function! FoldText()
+    let l:lpadding = &fdc
+    redir => l:signs
+      execute 'silent sign place buffer='.bufnr('%')
+    redir End
+    let l:lpadding += l:signs =~ 'id=' ? 2 : 0
+
+    if exists("+relativenumber")
+      if (&number)
+        let l:lpadding += max([&numberwidth, strlen(line('$'))]) + 1
+      elseif (&relativenumber)
+        let l:lpadding += max([&numberwidth, strlen(v:foldstart - line('w0')), strlen(line('w$') - v:foldstart), strlen(v:foldstart)]) + 1
+      endif
+    else
+      if (&number)
+        let l:lpadding += max([&numberwidth, strlen(line('$'))]) + 1
+      endif
+    endif
+
+    " expand tabs
+    let l:start = substitute(getline(v:foldstart), '\t', repeat(' ', &tabstop), 'g')
+    let l:end = substitute(substitute(getline(v:foldend), '\t', repeat(' ', &tabstop), 'g'), '^\s*', '', 'g')
+
+    let l:info = ' (' . (v:foldend - v:foldstart) . ')'
+    let l:infolen = strlen(substitute(l:info, '.', 'x', 'g'))
+    let l:width = winwidth(0) - l:lpadding - l:infolen
+
+    let l:separator = ' … '
+    let l:separatorlen = strlen(substitute(l:separator, '.', 'x', 'g'))
+    let l:start = strpart(l:start , 0, l:width - strlen(substitute(l:end, '.', 'x', 'g')) - l:separatorlen)
+    let l:text = l:start . ' … ' . l:end
+
+    return l:text . repeat(' ', l:width - strlen(substitute(l:text, ".", "x", "g"))) . l:info
+  endfunction
+endif
 if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
     let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
 endif
@@ -115,7 +164,29 @@ nnoremap <leader>v V`]
 let g:vcoolor_disable_mappings = 1
 let g:colorizer_maxlines=1000
 let g:yankring_persist = 0
-let g:rainbow_active = 1
+let g:rainbow_active = 0
+let g:rainbow_conf = {
+\   'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+\   'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+\   'operators': '_,_',
+\   'parentheses': ['start=/(/ end=/)/ fold', 'start=/{%/ end=/%}/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+\   'separately': {
+\       '*': {},
+\       'tex': {
+\           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+\       },
+\       'lisp': {
+\           'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+\       },
+\       'vim': {
+\           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+\       },
+\       'html': {
+\           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+\       },
+\       'css': 0,
+\   }
+\}
 let g:move_key_modifier = 'C'
 let NERDSpaceDelims=1
 "let g:EasyMotion_keys = 'asdghklqwertyuiopzxcvbnmfj21'
@@ -137,14 +208,15 @@ let NERDTreeChDirMode = 0
 
 " Startify
 let g:startify_use_env = 1
+let g:startify_relative_path = 1
 let g:startify_custom_indices = ['a','f', 'g', 'h']
 let g:startify_session_sort = 1
 let g:startify_list_order = [
-        \ [' Sessions'], 'sessions',
-        \ ['  MRU '], 'files',
-        \ ['  MRU '.getcwd()], 'dir',
-        \ [' Bookmars'], 'bookmarks',
-        \ [' Commands'], 'commands',
+        \ ['Sessions'],'sessions',
+        \ 'files',
+        \ 'dir',
+        \ 'bookmarks',
+        \ 'commands',
         \ ]
 
 let g:startify_files_number = 5
@@ -153,11 +225,11 @@ let g:startify_skiplist = [
     \ '.vimrc',
     \ expand(g:portable.'/'.'*')]
 let g:startify_bookmarks = [
-    \ { 'b': expand(fnamemodify(g:portable, ":h").'/shell/'.'distribute')},
+    \ { 'd': expand(fnamemodify(g:portable, ":h").'/shell/'.'distribute')},
     \ { 'gg': expand(fnamemodify(g:portable, ":h").'/shell/concepts/'.'gg.sh')},
     \ { 'vv': expand(g:portable.'/'.'my_vimrc.vim')},
     \ { 'v.': expand(g:portable.'/'.'.vimrc')},
-    \ { 'gdir': '~/tmp/syms/'} ]
+    \ { 'gg': '~/tmp/syms/'} ]
 
 " \ {'n': ['node support', 'call My_node()']},
 let g:startify_commands = [
@@ -177,6 +249,8 @@ let g:startify_custom_header = g:ascii
     " startify#fortune#cowsay()   formatted random quote in a box + cow
 
 " CtrlSpace
+nmap <C-Space> :CtrlSpace<CR>
+
 function! CtrlSpace_coloring()
     if has("gui_running")
         set mouse=a
@@ -198,9 +272,10 @@ function! CtrlSpace_coloring()
         set guifont=Monospace\ 10
         "set guifont=Ubuntu\ Mono
         hi CtrlSpaceSelected guifg=#021B25 guibg=#93A1A1 gui=bold
-        hi CtrlSpaceNormal guifg=#839496 guibg=#021B25 gui=NONE
+        hi CtrlSpaceNormal guifg=#000000 guibg=#021B25 gui=NONE
         hi CtrlSpaceSearch guifg=#9b1b06 guibg=NONE gui=bold
         hi CtrlSpaceStatus guifg=#000000 guibg=#667B83 gui=NONE
+        hi CtrlSpaceSearch ctermfg=220 guifg=#ffd700 ctermbg=NONE guibg=NONE cterm=bold gui=bold
     else
         hi CtrlSpaceSelected term=reverse ctermfg=187 guifg=#d7d7af ctermbg=23 guibg=#005f5f cterm=bold gui=bold
         hi CtrlSpaceNormal term=NONE ctermfg=244 guifg=#808080 ctermbg=232 guibg=#080808 cterm=NONE gui=NONE
@@ -310,6 +385,7 @@ cmap ,<Space> <C-R>/
 nnoremap ,<Space> /
 
 " -------- mappings -------------
+" inoremap {{ {<CR><CR>}<up>
 nnoremap <c-h> :SidewaysLeft<cr>
 nnoremap <c-l> :SidewaysRight<cr>
 nnoremap ,0 :AirlineTheme cool<CR>
@@ -357,7 +433,7 @@ command! Rechner <C-R>=string(eval(input("Berechne: ")))<CR>
 " space to search vergesse ich immer
 " macht :h vertival, BEACHTE ^H!
 command! -nargs=* -complete=help Help vertical belowright help <args>
-" substitute find and replace
+" substitute find and replace // select
 vnoremap ;; "hy:%s/<C-r>h//gc<left><left><left>
 vnoremap <leader><space> "hy/<C-r>h
 "get all in hochkomma
@@ -402,8 +478,9 @@ nnoremap <silent> <F9> :MaximizerToggle<CR>
 " alles markieren
 nnoremap <m-a> <ESC>ggVG
 " save
-inoremap <c-s> <esc>:update<cr>
-nnoremap <c-s> <esc>:update<cr>
+vnoremap <m-q> <esc>:update<cr>
+inoremap <m-q> <esc>:update<cr>
+nnoremap <m-q> <esc>:update<cr>
 " map <c-c> "*y
 " window movement
 nnoremap s <c-w>
@@ -463,12 +540,16 @@ highlight! link messagesError NONE
   "exec "imap \e".c." <A-".c.">"
   "let c = nr2char(1+char2nr(c))
 "endw
-
+" current word does not get highlighted
+let g:matchup_matchparen_timeout = 300
+let g:matchup_matchparen_insert_timeout = 60
+hi MatchParen gui=bold
 " ............. coloring
 " colorscheme gotham256
-colorscheme gruvbox
+colorscheme despacio
+" colorscheme gruvbox
 " let g:gruvbox_vert_split="red"
-set background=dark
+" set background=dark
 " colorscheme hybrid
 " colorscheme knuckleduster
 " colorscheme pencil
@@ -489,14 +570,17 @@ set background=dark
 "colorscheme nightsky
 "colorscheme desert
 "colorscheme industry
-"colorscheme Mustang
+" colorscheme mustang
 "colorscheme base16-atelierseaside
 "colorscheme twilight
 "colorscheme yeller
 "colorscheme zmrok
 " colorscheme darkburn
 " You need to reload this file for the change to apply
+" colorscheme corn
+" colorscheme mod8
 
+" enusre coloring:
 highlight ExtraWhitespace ctermbg=NONE
 
 hi TabLine            gui=NONE       guifg=#507080       guibg=Black
@@ -508,27 +592,56 @@ hi Title              gui=bold       guifg=#507080       guibg=NONE
 " hi CursorLine           guibg=gray10
 hi CursorColumn         cterm=NONE    ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 " :nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
-highlight LineNr        guifg=#666666 guibg=gray15
-highlight StatusLine    guifg=black   guibg=#85ff85 gui=bold
-highlight StatusLineNC  guifg=black   guibg=#add8e6 gui=NONE
+" highlight StatusLine    guifg=red   guibg=#032 gui=bold
+" highlight StatusLineNC  guifg=black   guibg=#add8e6 gui=NONE
 " highlight Search      guifg=#000000 guibg=#a1a11d gui=bold
-highlight Search        guifg=gray20  guibg=#00ff40
+highlight Search        guifg=#A8CA00 guibg=#032a0a
 highlight Title         guifg=#3333cc guibg=NONE gui=NONE
 hi Todo  guifg=orangered guibg=gray10 gui=bold
 
 highlight NonText ctermfg=None     |" Theme your indent symbols
 " highlight Folded guifg=#001010 guibg=#001010 guifg=#a00066
-highlight Folded guifg=#001010 guibg=#001010 guifg=#30dfaf
+" highlight Folded guifg=#001010 guibg=#001010 guifg=#30dfaf
+highlight Folded guifg=#001010 guibg=#333300 guifg=#ff4422
 highlight FoldColumn guifg=#1A1A1A guibg=#000000 guifg=white
+hi Error guibg=#D488F6 guifg=#005510
+"
+" linenumbercoloring:
+hi SignColumn guibg=gray15 guibg=gray15
+highlight LineNr        guifg=#666666 guibg=gray15
+
+" popup menue pink error
+hi Pmenusel guifg=#ffffff guibg=#032a0a
+hi Pmenu guibg=#9c9c9c guifg=#000000
+" hi link Pmenu Folded
+" hi Normal                   guifg=#6BFF22 guibg=#330033
+" hi Normal                   guifg=#ABFF82 guibg=#003333
+" hi Comment                  guifg=#009434
+hi Constant                 guifg=#33DAFF gui=none
+
+" hi Statement                guifg=#CCEE40 gui=italic
+hi StatementU               guifg=#CCEE40 gui=underline
+" hi Keyword                  guifg=#CCEE40
+hi Visual  guifg=#330033 guibg=#FFFFFF gui=none
+" hi MatchParen gui=bold
+nnoremap <silent> <leader>a :ArgWrap<CR>
+" let g:matchup_matchparen_nomode = 'i'
+call matchup#util#patch_match_words(
+   \ '<\@<=\([^/][^ \t>]*\)\%(>\|$\|[ \t][^>]*\%(>\|$\)\):<\@<=/\1>',
+   \ '<\@<=\([^/][^ \t>]*\)\ze\%(>\|$\|[ \t][^>]*\%(>\|$\)\):<\@<=/\1>'
+   \)
+augroup matchup_highlight
+    autocmd!
+    autocmd ColorScheme * hi MatchParenCur gui=bold cterm=bold
+augroup END
+
 " -------------last words
 filetype plugin indent on
 
-set makeprg="make -C build"
-
-set autoindent
+set makeprg="make -C buildgarbagecollectset autoindent
 set tabstop=2
 set softtabstop=2
-set shiftwidth=2
+set shiftwidth=4
 set expandtab
 
 " set showtabline=0

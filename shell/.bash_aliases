@@ -7,6 +7,8 @@
 # source $HOME/bin/virtualenvwrapper_bashrc
 
 # dev
+alias nrd="npm run dev"
+alias viw="vue init webpack-simple my-project"
 
 # beeps off
 if [ -n "$DISPLAY" ]; then
@@ -37,7 +39,8 @@ alias ld='ls -d */'
 alias ld.='ls -dhrlt */'
 alias ls.='ls -lhXrt'
 # alias la='ls -a | grep ^.*'
-alias la='ls -a | grep ^.*'
+alias la='ls -ahl'
+alias laa='ls -a | grep ^.*'
 alias ldir='ls -lhA |grep ^d'
 alias lfiles='ls -lhA |grep ^-'
 alias lns='ls -l `find . -maxdepth 1 -type l -print`'
@@ -67,6 +70,7 @@ cpufreq-info | grep mom; }
 function fanmanipulation { echo level "$1" | sudo tee /proc/acpi/ibm/fan; }
 
 # git
+alias graph='git log --all --decorate --oneline --graph'
 alias ga='git add $1'
 alias gc='git commit -m $1'
 alias gas='git add . |gc'
@@ -107,18 +111,15 @@ alias cfg='cd $(echo -n "$DIR/$*")'
 
 # from kenneth
 # Python/Django
-function idle3 {
-idle-python3.2
-}
-export idle3
-# alias idle3="idle-python3.2"
+alias pmcheck="python manage check --deploy"
+alias pmpic="python manage.py graph_models -a -o myapp_models.png"
+alias pmuser="python3 manage.py createsuperuser"
+alias pmsync="pm migrate --run-syncdb"
 alias pm="python3 manage.py"
 alias sm="python3 manage.py schemamigration"
-alias m="python3 manage.py migrate"
-alias pms="python3 manage.py shell"
-alias pmr='python3 manage.py runserver'
-alias pmrp="python3 manage.py runserver_plus"
-alias pmsp="python3 manage.py shell_plus"
+alias pmm="pm makemigrations && pm migrate"
+alias pms="python3 manage.py shell_plus"
+alias pmr='python3 manage.py runserver_plus'
 alias dgo='source bin/activate; pip freeze'
 # alias django='cd $(echo $home_dir/programming/web/)'
 alias soa="source bin/activate"
@@ -159,10 +160,14 @@ extract() {
 }
 
 function infect_mine() {
+    # unset / set compose
+    setxkbmap -option
+    # setxkbmap -option compose:rctrl
+
     hjkl
     toggle_touchpad
     # set lang
-    LANG=de_DE.utf8
+    # LANG=de_DE.utf8
 }
 
 # source $HOME/tmp/bash/projects.sh

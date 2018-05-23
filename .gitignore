@@ -1,4 +1,5 @@
 # ignore "plugins"
+bundle/
 conky/
 copy*/
 # Compiled source #

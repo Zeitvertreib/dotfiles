@@ -17,20 +17,27 @@ let g:portable = fnamemodify(s:portable_raw, ":h")
 " let s:portableVundle= g:global . '/bundle/Vundle.vim'
 let s:portableBundle= g:global . '/bundle'
 
+let plug_path = g:portable.'/'.'plug.vim'
+if filereadable( expand(plug_path)) == 1
+execute "source " . plug_path
+endif
+
 " add the directory to 'runtimepath'
 let &runtimepath = printf('%s,%s,%s/after', g:global, &runtimepath, g:global)
 
 " start vim with: vim -u /path/to/global/vim/.vimrc
-" let mapleader=","
 
 set nocompatible | filetype off
 
 " https://github.com/junegunn/vim-plug
 call plug#begin(s:portableBundle)
-" call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
+if has('nvim')
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+Plug 'Shougo/neocomplete'
+endif
 " call vundle#begin(s:portableBundle)
-
 " let Vundle manage Vundle, required
 " Plugin 'VundleVim/Vundle.vim'
 " Plug 'tpope/vim-pathogen'
@@ -38,41 +45,53 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-unimpaired'
+Plug 'kana/vim-textobj-user'
+Plug 'whatyouhide/vim-textobj-xmlattr'
+Plug 'itchyny/calendar.vim'
 
+Plug 'ervandew/supertab'
 Plug 'mtth/scratch.vim'
-Plug 'sk1418/QFGrep'
+" Plug 'sk1418/QFGrep'
+Plug 'vimwiki/vimwiki'
 
-Plug 'dahu/vimple'
-Plug 'vim-ctrlspace/vim-ctrlspace'
 " Plug 'virtual env'
 Plug 'chrisbra/NrrwRgn'
 " Plug 'itchyny/lightline.vim'
 " Plug 'itchyny/lightline-powerful'
 Plug 'itchyny/vim-cursorword'
 " Plug 'osyo-manga/vim-stripe'
-Plug 'osyo-manga/vim-over'
-Plug 'osyo-manga/vim-hopping'
+" Plug 'osyo-manga/vim-over'
+" Plug 'osyo-manga/vim-hopping'
 " Plug 'tyru/open-browser.vim'
 " Plug 'lordm/vim-browser-reload-linux'
 Plug 'jaxbot/browserlink.vim'
+" Plug 'pangloss/vim-javascript'
+" Plug 'AndrewRadev/splitjoin.vim'
+" Plug 'lervag/vimtex'
+" Plug 'LaTeX-Box-Team/LaTeX-Box'
 
+" IDE-ish
+" Plug 'dyng/ctrlsf.vim'
+Plug 'mhinz/vim-startify'
+" Plug 'dahu/vimple'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-ctrlspace/vim-ctrlspace'
+" Plug 'SirVer/ultisnips'
+" Plug 'jordwalke/VimCompleteLikeAModernEditor'
+" Plug 'jordwalke/AutoComplPop'
+" Plug 'honza/vim-snippets'
+Plug 'majutsushi/tagbar'
+" Plug 'Shougo/neosnippet'
+" Plug 'Shougo/neosnippet-snippets'
+" Plug 'Shougo/unite.vim'
+" synthax: all
+Plug 'sheerun/vim-polyglot'
+Plug 'FooSoft/vim-argwrap'
 Plug 'AndrewRadev/sideways.vim'
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
-Plug 'AndrewRadev/splitjoin.vim'
-" Plug 'lervag/vimtex'
-" Plug 'LaTeX-Box-Team/LaTeX-Box'
-" IDE-ish
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
-Plug 'majutsushi/tagbar'
-Plug 'Shougo/neocomplete'
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/neco-vim'
+" Plug 'Shougo/neco-vim'
 
 " Plug 'ivanov/vim-ipython'
 "
@@ -80,11 +99,9 @@ Plug 'Shougo/neco-vim'
 " Plug 'scrooloose/syntastic'
 " Plug 'lambdalisue/vim-pyenv'
 " Plug 'rkulla/pydiction'
-Plug 'mhinz/vim-startify'
 " Plug 'mhinz/vim-grepper'
 
-" Plug 'ervandew/supertab'
-Plug 'wincent/command-t'
+" Plug 'wincent/command-t'
 " ======================================
 " Plug 'carlhuda/janus'
 " Plug 'xolox/vim-easytags'
@@ -103,10 +120,10 @@ Plug 'justinmk/vim-sneak'
 
 " to test -==========
 Plug 'bronson/vim-visual-star-search'
-" Plug 'tmhedberg/SimpylFold'
-Plug 'Konfekt/FastFold'
+Plug 'tmhedberg/SimpylFold'
+" Plug 'Konfekt/FastFold'
 " Plug 'chrisbra/changesPlugin'
-Plug 'jceb/vim-orgmode'
+" Plug 'jceb/vim-orgmode'
 
 Plug 'will133/vim-dirdiff'
 " Plug 'laurentgoudet/vim-howdoi'
@@ -119,13 +136,14 @@ Plug 'will133/vim-dirdiff'
 "
 " Plugin 'kien/rainbow_parentheses.vim'"
 " Plug 'junegunn/vim-easy-align'
-Plug 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
 " Plug 'nathanaelkane/vim-indent-guides'
 " highten up around cursor, nice
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
+Plug 'andymass/vim-matchup'
 " easy marks, disable on small screens
-Plug 'kshenoy/vim-signature'
+" Plug 'kshenoy/vim-signature'
 " automated disable hl, not sure, if needed
 " Plug 'pgdouyon/vim-evanesco'
 " Plug 'junegunn/vim-pseudocl'
@@ -137,14 +155,14 @@ Plug 'kshenoy/vim-signature'
 " alternative try:
 Plug 'lilydjwg/colorizer'
 Plug 'luochen1990/rainbow'
-Plug 'KabbAmine/vCoolor.vim'
+" Plug 'KabbAmine/vCoolor.vim'
 
 Plug 'scrooloose/nerdtree'
 " Plug 'jistr/vim-nerdtree-tabs'
 
 Plug 'scrooloose/nerdcommenter'
 " closes bracets
-Plug 'raimondi/delimitmate'
+" Plug 'raimondi/delimitmate'
 " following bugged!!!!!!!!!!!!!!!!!!!!!!
 " Plug 'kopischke/vim-stay'
 
@@ -157,10 +175,18 @@ Plug 'raimondi/delimitmate'
 " makes use quikfix...
 " Plug 'jceb/vim-hier'
 
-Plug 'pangloss/vim-javascript'
-Plug 'jelera/vim-javascript-syntax'
+" Plug 'mjbrownie/vim-htmldjango_omnicomplete'
+" Plug 'tweekmonster/django-plus.vim'
+" Plug 'pangloss/vim-javascript'
+" Plug 'jelera/vim-javascript-syntax'
+" Plug 'cakebaker/scss-syntax.vim'
+" Plug 'posva/vim-vue'
 
 " colorshemes:
+Plug 'tyrannicaltoucan/vim-deep-space'
+Plug 'AlessandroYorba/Despacio'
+Plug 'cocopon/iceberg.vim'
+
 Plug 'jaxbot/semantic-highlight.vim'
 Plug 'chriskempson/base16'
 Plug 'w0ng/vim-hybrid'
@@ -172,7 +198,8 @@ Plug 'noahfrederick/vim-hemisu'
 Plug 'jonathanfilip/vim-lucius'
 Plug 'morhetz/gruvbox'
 Plug 'itchyny/landscape.vim'
-
+" #!
+Plug 'nightsense/vrunchbang'
 Plug 'whatyouhide/vim-gotham'
 Plug 'atelierbram/vim-colors_duotones'
 Plug 'PotatoesMaster/vim-colors-harold'
@@ -189,7 +216,6 @@ call plug#end()           | " required
 " call pathogen#helptags()
 
 function! Migrate_portable_vim()
-    " let s:portable_Plugin = g:portable . '/plugin'
     let s:p_configs = [ "my_vimrc.vim", "my_func.vim", "my_omni.vim", "my_airline.vim"]
     for ff in s:p_configs
       let pf = g:portable.'/'.ff
@@ -238,9 +264,9 @@ set clipboard=unnamed
 "" nmap Q gqap
 
 " TABs but spaces
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+" set tabstop=4
+" set softtabstop=4
+" set shiftwidth=4
 set shiftround
 set expandtab
 
@@ -248,6 +274,9 @@ set expandtab
 set nobackup
 set nowritebackup
 set noswapfile
+set guicursor=n-v-c:block,i-ci-ve:ver15,r-cr:hor20,o:hor50
+      \,a:blinkon0
+      \,sm:block-blinkwait175-blinkoff150-blinkon175
 
 if has("gui_running")
 " GUI is running or is about to start.
