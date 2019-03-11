@@ -34,9 +34,12 @@ call plug#begin(s:portableBundle)
 " alternatively, pass a path where Vundle should install plugins
 if has('nvim')
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/neopairs'
 else
 Plug 'Shougo/neocomplete'
 endif
+Plug 'digitaltoad/vim-pug'
+Plug 'posva/vim-vue'
 " call vundle#begin(s:portableBundle)
 " let Vundle manage Vundle, required
 " Plugin 'VundleVim/Vundle.vim'
@@ -64,7 +67,7 @@ Plug 'itchyny/vim-cursorword'
 " Plug 'osyo-manga/vim-hopping'
 " Plug 'tyru/open-browser.vim'
 " Plug 'lordm/vim-browser-reload-linux'
-Plug 'jaxbot/browserlink.vim'
+" Plug 'jaxbot/browserlink.vim'
 " Plug 'pangloss/vim-javascript'
 " Plug 'AndrewRadev/splitjoin.vim'
 " Plug 'lervag/vimtex'
@@ -82,8 +85,8 @@ Plug 'vim-ctrlspace/vim-ctrlspace'
 " Plug 'jordwalke/AutoComplPop'
 " Plug 'honza/vim-snippets'
 Plug 'majutsushi/tagbar'
-" Plug 'Shougo/neosnippet'
-" Plug 'Shougo/neosnippet-snippets'
+Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet-snippets'
 " Plug 'Shougo/unite.vim'
 " synthax: all
 Plug 'sheerun/vim-polyglot'
@@ -177,7 +180,7 @@ Plug 'scrooloose/nerdcommenter'
 
 " Plug 'mjbrownie/vim-htmldjango_omnicomplete'
 " Plug 'tweekmonster/django-plus.vim'
-" Plug 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript'
 " Plug 'jelera/vim-javascript-syntax'
 " Plug 'cakebaker/scss-syntax.vim'
 " Plug 'posva/vim-vue'

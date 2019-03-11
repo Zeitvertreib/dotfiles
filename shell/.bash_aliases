@@ -8,12 +8,16 @@
 
 # dev
 alias nrd="npm run dev"
+alias nall="npm install -D pug pug-plain-loader stylus stylus-loader axios vue-router"
 alias viw="vue init webpack-simple my-project"
 
 # beeps off
 if [ -n "$DISPLAY" ]; then
   xset b off
 fi
+
+alias ar1='arandr ~/dotfiles/DE/arander_1screen.sh'
+alias ar2='arandr ~/dotfiles/DE/arander_2screens.sh'
 
 alias con1='conky -q -c $DIR/../conky/.conky_calender; conky -q -c $DIR/../conky/.conkyrc'
 alias con2='cd $DIR/../conky/; conky -q -c .conky_calender; conky -q -c .conkyrc'
@@ -110,6 +114,7 @@ alias cfg='cd $(echo -n "$DIR/$*")'
 # alias cfg='$bash_scripts args_to_path $*'
 
 # from kenneth
+alias django="pyenv activate django; gg cards_; pm runserver"
 # Python/Django
 alias pmcheck="python manage check --deploy"
 alias pmpic="python manage.py graph_models -a -o myapp_models.png"

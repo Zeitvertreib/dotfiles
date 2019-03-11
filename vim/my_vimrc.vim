@@ -1,3 +1,5 @@
+autocmd BufEnter *.vue setlocal indentkeys-=*<Return> indentkeys-={"
+
 " echom "portable ".expand('<sfile>')." used"
 
 " ln -s ~/my_dotfiles/my_vimrc.vim ../plugin/my_vimrc.vim
@@ -19,11 +21,17 @@ set history=200
 set diffopt=vertical
 " set ttimeout ttimeoutlen=100
 set ch=2 " Make command line two lines high
-" tabs to 2, instead of 4
 " Lineal
 set number
 set nornu
 " set relativenumber!
+set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+" Only shown when not in insert mode to not go insane.
+augroup trailing
+    au!
+    au InsertEnter * :set listchars-=trail:⌴
+    au InsertLeave * :set listchars+=trail:⌴
+augroup END
 set list
 set wildmenu
 set formatoptions-=t " Do not auto-wrap text using textwidth
@@ -49,8 +57,16 @@ set wildignore+=*.pyc
 " set statusline=\ %t\ %l\/%L
 set laststatus=2
 set modelines=0
-" CURSOR {{{
+
+" Cursorline {{{
 " set cursorline
+" Only show cursorline in the current window and in normal mode.
+augroup cline
+    au!
+    au WinLeave,InsertEnter * set nocursorline
+    au WinEnter,InsertLeave * set cursorline
+augroup END
+
 set sidescroll=1
 set sidescrolloff=10
 set scrolloff=15 "scrollabstand zu unten und oben?
@@ -64,7 +80,8 @@ set cpoptions+=n
 set tw=80
 " }}}
 set lazyredraw
-" set synmaxcol=120
+" dont try highlight longer lines then 420
+set synmaxcol=420
 set breakindent
 set sb spr | "split below and right
 " Always substitute all letters, not just substitute first hit on line
@@ -86,54 +103,6 @@ nnoremap <space><space> za
 vnoremap <space> zf
 set foldtext=v:folddashes.substitute(getline(v:foldstart),'/\\*\\\|\\*/\\\|{{{\\d\\=','','g')
 
-if has("folding")
-  set foldenable        " enable folding
-  set foldmethod=syntax " fold based on syntax highlighting
-  set foldlevelstart=99 " start editing with all folds open
-
-  " toggle folds
-  " nnoremap <Space> za
-  " vnoremap <Space> za
-
-  set foldtext=FoldText()
-  function! FoldText()
-    let l:lpadding = &fdc
-    redir => l:signs
-      execute 'silent sign place buffer='.bufnr('%')
-    redir End
-    let l:lpadding += l:signs =~ 'id=' ? 2 : 0
-
-    if exists("+relativenumber")
-      if (&number)
-        let l:lpadding += max([&numberwidth, strlen(line('$'))]) + 1
-      elseif (&relativenumber)
-        let l:lpadding += max([&numberwidth, strlen(v:foldstart - line('w0')), strlen(line('w$') - v:foldstart), strlen(v:foldstart)]) + 1
-      endif
-    else
-      if (&number)
-        let l:lpadding += max([&numberwidth, strlen(line('$'))]) + 1
-      endif
-    endif
-
-    " expand tabs
-    let l:start = substitute(getline(v:foldstart), '\t', repeat(' ', &tabstop), 'g')
-    let l:end = substitute(substitute(getline(v:foldend), '\t', repeat(' ', &tabstop), 'g'), '^\s*', '', 'g')
-
-    let l:info = ' (' . (v:foldend - v:foldstart) . ')'
-    let l:infolen = strlen(substitute(l:info, '.', 'x', 'g'))
-    let l:width = winwidth(0) - l:lpadding - l:infolen
-
-    let l:separator = ' … '
-    let l:separatorlen = strlen(substitute(l:separator, '.', 'x', 'g'))
-    let l:start = strpart(l:start , 0, l:width - strlen(substitute(l:end, '.', 'x', 'g')) - l:separatorlen)
-    let l:text = l:start . ' … ' . l:end
-
-    return l:text . repeat(' ', l:width - strlen(substitute(l:text, ".", "x", "g"))) . l:info
-  endfunction
-endif
-if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
-    let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
-endif
 " enable automatic yanking to and pasting from the selection cnp
 if has('unnamedplus')
     set clipboard=unnamedplus,unnamed
@@ -290,7 +259,7 @@ let g:ctrlspace_use_horizontal_splits=1
 let g:CtrlSpaceSaveWorkspaceOnExit=1
 let g:CtrlSpaceLoadLastWorkspaceOnStart=1
 
-" surround.vim
+" surround.vim // supposed to be for django
 let b:surround_{char2nr("v")} = "{{ \r }}"
 let b:surround_{char2nr("{")} = "{{ \r }}"
 let b:surround_{char2nr("%")} = "{% \r %}"
@@ -346,6 +315,9 @@ let bexec_rehighlight=1
 " let bexec_interpreter="/path/to/interpreter"
 
 " -------- shortcuts / keybinds -------------
+nnoremap <leader>pu 0f<xelvf"c.<esc>A<esc>kb<esc>kb<esc>
+nnoremap <leader>v :exec "edit" expand(g:portable.'/'.'my_vimrc.vim')<CR>
+
 inoremap <C-w> <Esc>bdwa
 cmap gcc !gcc % -g -Wall -o inVimCompiled
 " ..sudo
@@ -364,8 +336,8 @@ nnoremap <Leader>yp :let @*=expand("%")<cr>:echo "Copied file path to clipboard"
 nnoremap <Leader>yf :let @*=expand("%:t")<cr>:echo "Copied file name to clipboard"<cr>
 " Copy current buffer path without filename to system clipboard
 nnoremap <Leader>yd :let @*=expand("%:h")<cr>:echo "Copied file directory to clipboard"<cr>
-" Delete line under your current position (Delete next-line).
 "
+" Delete line under your current position (Delete next-line).
 nnoremap do myjdd`y
 nnoremap dO mykdd`y
 " Jump outside any parentheses or quotes, when your cursor is inside a closed region.
@@ -385,7 +357,22 @@ cmap ,<Space> <C-R>/
 nnoremap ,<Space> /
 
 " -------- mappings -------------
-" inoremap {{ {<CR><CR>}<up>
+" gi already moves to "last place you exited insert mode", so we'll map gI to
+" something similar: move to last change
+nnoremap gI `.
+
+" Fix linewise visual selection of various text objects
+nnoremap VV V
+nnoremap Vit vitVkoj
+nnoremap Vat vatV
+nnoremap Vab vabV
+nnoremap VaB vaBV
+
+" Easier to type, and I never use the default behavior.
+noremap H ^
+noremap L $
+vnoremap L g_
+nnoremap U syntax sync fromstart
 nnoremap <c-h> :SidewaysLeft<cr>
 nnoremap <c-l> :SidewaysRight<cr>
 nnoremap ,0 :AirlineTheme cool<CR>
@@ -497,6 +484,8 @@ nnoremap <m-l> 1<c-w>>
 nnoremap <m-h> 1<c-w><
 
 map <m-s> :StripWhitespace<CR>
+" Clean trailing whitespace
+" nnoremap <leader>s mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 nnoremap <m-u> :nohlsearch<CR><m-u>
 nmap <F6> :set ignorecase!
 nnoremap <Leader>s :source %
@@ -594,8 +583,8 @@ hi CursorColumn         cterm=NONE    ctermbg=darkred ctermfg=white guibg=darkre
 " :nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 " highlight StatusLine    guifg=red   guibg=#032 gui=bold
 " highlight StatusLineNC  guifg=black   guibg=#add8e6 gui=NONE
-" highlight Search      guifg=#000000 guibg=#a1a11d gui=bold
-highlight Search        guifg=#A8CA00 guibg=#032a0a
+hi IncSearch      guifg=#000000 guibg=#a1a11d gui=bold
+highlight Search        ctermfg=0 ctermbg=red guifg=#A8CA00 guibg=#032a0a
 highlight Title         guifg=#3333cc guibg=NONE gui=NONE
 hi Todo  guifg=orangered guibg=gray10 gui=bold
 
@@ -641,7 +630,7 @@ filetype plugin indent on
 set makeprg="make -C buildgarbagecollectset autoindent
 set tabstop=2
 set softtabstop=2
-set shiftwidth=4
+set shiftwidth=2
 set expandtab
 
 " set showtabline=0

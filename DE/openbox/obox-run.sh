@@ -4,7 +4,7 @@ obox-run() {
     if [ $(type -t gmrun) ]; then
         gmrun
     else
-        dmenu_extended_run
+        rofr.sh -r
     fi
 }
 

@@ -116,7 +116,7 @@
        by other applications, or saved in your session
        use obconf if you want to change these without having to log out
        and back in -->
-    <number>4</number>
+    <number>5</number>
     <firstdesk>1</firstdesk>
     <names>
       <!-- set names up here if you want to, like this:
@@ -377,13 +377,18 @@
       </action>
     </keybind>
     <!-- Keybindings for running applications -->
-    <keybind key="A-F2">
+    <keybind key="M-F2">
       <action name="Execute">
         <startupnotify>
           <enabled>true</enabled>
           <name>Run Program</name>
         </startupnotify>
-        <command>sh -c ~/config/dotfiles/DE/openbox/obox-run.sh</command>
+        <command>sh -c ~/dotfiles/DE/openbox/obox-run.sh</command>
+      </action>
+    </keybind>
+    <keybind key="W-space">
+      <action name="ShowMenu">
+        <menu>root-menu</menu>
       </action>
     </keybind>
     <keybind key="A-F3">
@@ -401,7 +406,7 @@
           <enabled>false</enabled>
           <name>File Manager</name>
         </startupnotify>
-        <command>sh -c ~/config/dotfiles/DE/openbox/obox-filemanager.sh</command>
+        <command>sh -c ~/dotfiles/DE/openbox/obox-filemanager.sh</command>
       </action>
     </keybind>
     <keybind key="W-t">
@@ -411,7 +416,7 @@
           <name>Terminal</name>
         </startupnotify>
         <!-- <command>x-terminal-emulator</command> -->
-        <command>sh -c ~/config/dotfiles/DE/openbox/obox-terminal.sh</command>
+        <command>sh -c ~/dotfiles/DE/openbox/obox-terminal.sh</command>
       </action>
     </keybind>
     <keybind key="W-i">
@@ -453,12 +458,12 @@
     <!-- Where installing pulse-audio instead, change 'amixer set' to 'amixer -D pulse set' -->
     <keybind key="XF86AudioRaiseVolume">
       <action name="Execute">
-        <command>amixer set Master 10%+</command>
+        <command>sh -c "~/dotfiles/DE/openbox/obox-volume.sh 2"</command>
       </action>
     </keybind>
     <keybind key="XF86AudioLowerVolume">
       <action name="Execute">
-        <command>amixer set Master 10%-</command>
+        <command>sh -c "~/dotfiles/DE/openbox/obox-volume.sh -2"</command>
       </action>
     </keybind>
     <keybind key="XF86AudioMute">
@@ -472,7 +477,7 @@
           <enabled>enabled</enabled>
           <name>Logout</name>
         </startupnotify>
-        <command>sh -c ~/config/dotfiles/DE/openbox/obox-exit.sh</command>
+        <command>sh -c ~/dotfiles/DE/openbox/obox-exit.sh</command>
       </action>
     </keybind>
     <keybind key="W-Escape">
@@ -518,11 +523,6 @@
     <keybind key="W-Tab">
       <action name="ShowMenu">
         <menu>client-list-combined-menu</menu>
-      </action>
-    </keybind>
-    <keybind key="W-space">
-      <action name="ShowMenu">
-        <menu>root-menu</menu>
       </action>
     </keybind>
     <keybind key="A-C-q">

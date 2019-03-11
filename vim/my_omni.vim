@@ -1,5 +1,11 @@
 " set ofu=syntaxcomplete#Complete
+" Better Completion
+set complete=.,w,b,u,t
+set completeopt=longest,menuone,preview
 set completeopt+=menuone
+set completeopt+=noinsert
+autocmd CompleteDone * silent! pclose!
+
 let g:neocomplete#max_keyword_width = 20
 let g:neocomplete#sources#buffer#cache_limit_size = 500000
 " sets cr to insert cndidate, but does not insert new line
@@ -34,18 +40,17 @@ let g:neocomplete#enable_auto_select = 1
 "
 let g:neosnippet#enable_snipmate_compatibility = 0
 
-imap <C-i>     <Plug>(neosnippet_expand_or_jump)
-smap <C-i>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-i>     <Plug>(neosnippet_expand_target)
+imap <C-l>     <Plug>(neosnippet_expand_or_jump)
+smap <C-l>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-l>     <Plug>(neosnippet_expand_target)
+
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " SuperTab like snippets behavior.
 let g:neosnippet#enable_preview=1
-" imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-            " \ "\<Plug>(neosnippet_expand_or_jump)"
-            " \: pumvisible() ? "\<C-n>" : "\<TAB>"
-" smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-" imap <expr><C-l> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<C-n>"
-" inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<C-R>=UltiSnips#ExpandSnippet()"
+
+let g:UltiSnipsExpandTrigger="<C-l>"
 "let g:UltiSnipsExpandTrigger="ds"
 "let g:UltiSnipsJumpBackwardTrigger="<c-tab>"
 "let g:UltiSnipsJumpForwardTrigger=">"
@@ -54,9 +59,9 @@ let g:neosnippet#enable_preview=1
 let g:neosnippet#snippets_directory= g:portable . '/snipps'
 let g:UltiSnipsSnippetsDir= g:portable . '/usnipps'
 " let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-n>"
-let g:UltiSnipsJumpBackwardTrigger="<c-p>"
-let g:UltiSnipsListSnippets ="<c-tab>"
+let g:UltiSnipsJumpForwardTrigger="<C-n>"
+let g:UltiSnipsJumpBackwardTrigger="<C-p>"
+let g:UltiSnipsListSnippets ="<C-l>"
 
 " highlighting..
 " Pmenu     normal item  |hl-Pmenu|
