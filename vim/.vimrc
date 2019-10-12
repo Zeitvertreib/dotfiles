@@ -33,11 +33,20 @@ set nocompatible | filetype off
 call plug#begin(s:portableBundle)
 " alternatively, pass a path where Vundle should install plugins
 if has('nvim')
+" Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/neopairs'
+" Plug 'Shougo/neopairs'
 else
-Plug 'Shougo/neocomplete'
+" Plug 'Shougo/neocomplete'
 endif
+
+Plug 'mhinz/vim-grepper'
+" Plug 'wsdjeg/FlyGrep.vim'
+" Plug 'ncm2/ncm2'
+" Plug 'ncm2/ncm2-bufword'
+" Plug 'ncm2/ncm2-path'
+Plug 'dNitro/vim-pug-complete', { 'for': ['jade', 'pug'] }
+
 Plug 'digitaltoad/vim-pug'
 Plug 'posva/vim-vue'
 " call vundle#begin(s:portableBundle)
@@ -52,7 +61,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'whatyouhide/vim-textobj-xmlattr'
 Plug 'itchyny/calendar.vim'
 
-Plug 'ervandew/supertab'
+" Plug 'ervandew/supertab'
 Plug 'mtth/scratch.vim'
 " Plug 'sk1418/QFGrep'
 Plug 'vimwiki/vimwiki'
@@ -80,10 +89,10 @@ Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-ctrlspace/vim-ctrlspace'
-" Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 " Plug 'jordwalke/VimCompleteLikeAModernEditor'
 " Plug 'jordwalke/AutoComplPop'
-" Plug 'honza/vim-snippets'
+Plug 'honza/vim-snippets'
 Plug 'majutsushi/tagbar'
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
@@ -183,7 +192,6 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'pangloss/vim-javascript'
 " Plug 'jelera/vim-javascript-syntax'
 " Plug 'cakebaker/scss-syntax.vim'
-" Plug 'posva/vim-vue'
 
 " colorshemes:
 Plug 'tyrannicaltoucan/vim-deep-space'
@@ -217,9 +225,8 @@ call plug#end()           | " required
 " pathogen at some point
 " call pathogen#infect()
 " call pathogen#helptags()
-
 function! Migrate_portable_vim()
-    let s:p_configs = [ "my_vimrc.vim", "my_func.vim", "my_omni.vim", "my_airline.vim"]
+    let s:p_configs = [ "my_vimrc.vim", "my_func.vim", "my_omni.vim", "my_airline.vim", "my_macros"]
     for ff in s:p_configs
       let pf = g:portable.'/'.ff
         if filereadable( expand(pf)) == 1
@@ -277,7 +284,7 @@ set expandtab
 set nobackup
 set nowritebackup
 set noswapfile
-set guicursor=n-v-c:block,i-ci-ve:ver15,r-cr:hor20,o:hor50
+set guicursor=n-v-c:block,i-ci-ve:ver12,r-cr:hor20,o:hor50
       \,a:blinkon0
       \,sm:block-blinkwait175-blinkoff150-blinkon175
 

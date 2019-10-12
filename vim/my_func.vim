@@ -164,6 +164,11 @@ endfunct
 "     :R ls =>g:buffer_list
 "     :R ls >buffer_list.txt
 command! -nargs=? -complete=help R call call(function('Redir'), split(<q-args>, '\s\(\S\+\s*$\)\@='))
+function! Myprofile()
+    silent! :profile start profile.log
+    silent! :profile func *
+    silent! :profile file *
+endfunction
 
 function! Pluginmanager()
     silent! :s/^/Plug '/
@@ -171,10 +176,6 @@ function! Pluginmanager()
 endfunction
 
 map ,p :call Pluginmanager()<CR>
-
-fun! My_node()
-  :shell
-endf
 
 fun! SetMkfile()
   let filemk = "Makefile"
@@ -191,6 +192,9 @@ fun! SetMkfile()
 endf
 
 command! -nargs=* Make tabnew | let $mkpath = SetMkfile() | make <args> -C $mkpath | cwindow 10
+
+command! ProfileMe :profile start profile.log <bar> profile func * <bar> profile file *
+command! ProfileStop :profile pause
 
 "Badass Functions
 function! OpenChangedFiles()

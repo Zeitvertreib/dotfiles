@@ -1,4 +1,4 @@
-autocmd BufEnter *.vue setlocal indentkeys-=*<Return> indentkeys-={"
+" autocmd BufEnter *.vue setlocal indentkeys-=*<Return> indentkeys-={"
 
 " echom "portable ".expand('<sfile>')." used"
 
@@ -80,6 +80,8 @@ set cpoptions+=n
 set tw=80
 " }}}
 set lazyredraw
+set redrawtime=1000
+syntax sync minlines=200
 " dont try highlight longer lines then 420
 set synmaxcol=420
 set breakindent
@@ -360,7 +362,12 @@ nnoremap ,<Space> /
 " gi already moves to "last place you exited insert mode", so we'll map gI to
 " something similar: move to last change
 nnoremap gI `.
-
+let g:grep_operator = 'Ag'
+let g:grep_operator = 'Ack'
+nmap <leader>g <Plug>GrepOperatorOnCurrentDirectory
+vmap <leader>g <Plug>GrepOperatorOnCurrentDirectory
+nmap <leader><leader>g <Plug>GrepOperatorWithFilenamePrompt
+vmap <leader><leader>g <Plug>GrepOperatorWithFilenamePrompt
 " Fix linewise visual selection of various text objects
 nnoremap VV V
 nnoremap Vit vitVkoj
@@ -372,7 +379,7 @@ nnoremap VaB vaBV
 noremap H ^
 noremap L $
 vnoremap L g_
-nnoremap U syntax sync fromstart
+nnoremap U :syntax sync fromstart<CR>
 nnoremap <c-h> :SidewaysLeft<cr>
 nnoremap <c-l> :SidewaysRight<cr>
 nnoremap ,0 :AirlineTheme cool<CR>
@@ -530,7 +537,7 @@ highlight! link messagesError NONE
   "let c = nr2char(1+char2nr(c))
 "endw
 " current word does not get highlighted
-let g:matchup_matchparen_timeout = 300
+let g:matchup_matchparen_timeout = 800
 let g:matchup_matchparen_insert_timeout = 60
 hi MatchParen gui=bold
 " ............. coloring
@@ -577,14 +584,17 @@ hi TabLineSel         gui=bold       guifg=Black         guibg=#507080
 hi TabLineFill        gui=NONE       guifg=White         guibg=Black
 hi Title              gui=bold       guifg=#507080       guibg=NONE
 
-" hi Cursor             guifg=black    guibg=green         gui=bold
+hi Cursor             guifg=black    guibg=green         gui=bold
 " hi CursorLine           guibg=gray10
-hi CursorColumn         cterm=NONE    ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+hi CursorColumn         cterm=NONE    ctermbg=red ctermfg=white guibg=darkred guifg=white
 " :nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 " highlight StatusLine    guifg=red   guibg=#032 gui=bold
 " highlight StatusLineNC  guifg=black   guibg=#add8e6 gui=NONE
-hi IncSearch      guifg=#000000 guibg=#a1a11d gui=bold
-highlight Search        ctermfg=0 ctermbg=red guifg=#A8CA00 guibg=#032a0a
+hi IncSearch      guifg=#000000 guibg=#aeee00 gui=bold
+
+" hi Search         cterm=reverse ctermfg=0 ctermbg=9 gui=reverse guifg=#A8CA00 guibg=#032a0a
+hi Search         cterm=reverse ctermfg=16 ctermbg=2 gui=reverse guifg=#A8CA00 guibg=#032a0a
+" highlight Search        guifg=#A8CA00 guibg=#032a0a
 highlight Title         guifg=#3333cc guibg=NONE gui=NONE
 hi Todo  guifg=orangered guibg=gray10 gui=bold
 
@@ -615,10 +625,10 @@ hi Visual  guifg=#330033 guibg=#FFFFFF gui=none
 " hi MatchParen gui=bold
 nnoremap <silent> <leader>a :ArgWrap<CR>
 " let g:matchup_matchparen_nomode = 'i'
-call matchup#util#patch_match_words(
-   \ '<\@<=\([^/][^ \t>]*\)\%(>\|$\|[ \t][^>]*\%(>\|$\)\):<\@<=/\1>',
-   \ '<\@<=\([^/][^ \t>]*\)\ze\%(>\|$\|[ \t][^>]*\%(>\|$\)\):<\@<=/\1>'
-   \)
+" call matchup#util#patch_match_words(
+   " \ '<\@<=\([^/][^ \t>]*\)\%(>\|$\|[ \t][^>]*\%(>\|$\)\):<\@<=/\1>',
+   " \ '<\@<=\([^/][^ \t>]*\)\ze\%(>\|$\|[ \t][^>]*\%(>\|$\)\):<\@<=/\1>'
+   " \)
 augroup matchup_highlight
     autocmd!
     autocmd ColorScheme * hi MatchParenCur gui=bold cterm=bold

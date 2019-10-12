@@ -1,3 +1,8 @@
+vue_setup(){
+  vue create $1
+  cd $1
+  npm install -D pug-plain-loader pug
+}
 #!/bin/bash
 zenti_color(){
     local value=$(zenity --color-selection --show-palette)
